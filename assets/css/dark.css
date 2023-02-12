@@ -1,0 +1,116 @@
+body{
+      background: black;
+}
+hr{
+    border: none;
+    background-color: #f0f4ef;
+    color: #f0f4ef;
+    height: 5px;
+    float: none;
+    width: 100%;
+}
+.wrap {
+         width: 100%;
+         margin: 0 auto;
+         height: 16.6%;
+        }
+
+.block {
+        float: left;
+        line-height: inherit;
+        font-size: 20px;
+        font-family: century gothic;
+        color: #f0f4ef;
+        width: 24.5%;
+        margin-top: 2%;
+        margin-bottom:2%;
+        text-align: center;
+        border-right: 4px solid #f0f4ef;
+}
+.wrap :last-child {
+        border-right: none;
+        margin-right: none;
+        }
+.button{
+        line-height: inherit;
+        font-size: 20px;
+        font-family: century gothic;
+        color: #f0f4ef;
+        width:auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 30px;
+        padding-right: 30px;
+        text-align: center;
+        border: none;
+        background-color: #56548c;
+        border-radius:5px;
+        outline: 0;
+}
+
+
+.center{
+        line-height: inherit;
+        font-size: 20px;
+        font-family: century gothic;
+        color: #f0f4ef;
+        width: 50%;
+        height: 60%;
+        text-align: justify;
+        position: absolute;
+        z-index: 1;
+        left:25%;
+        top:20%;
+        background-color: #000;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: nowrap;
+        padding-left: 40px;
+        padding-right: 40px;
+        opacity: 0.9;
+}
+
+.rules{
+      line-height: inherit;
+      font-size: 20px;
+      font-family: century gothic;
+      color: #f0f4ef;
+      width: 55%;
+      height: 10%;
+      text-align: justify;
+      position: absolute;
+      z-index: 1;
+      left:40%;
+      top:5%;
+      background-color: #000;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: nowrap;
+      /*padding-left: 40px;
+      padding-right: 40px;*/
+      opacity: 0.9;
+}
+
+.text{
+    color: #3d3d3d;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    appearance: none;
+    outline: 0;
+    background-color: inherit;
+    border: solid 3px #56548c;
+    border-radius: 5px;
+}
+
+#canvas1{
+        float: left;
+        top:0px;
+        left:0px;
+        height: 100%;
+}
