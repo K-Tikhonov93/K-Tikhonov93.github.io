@@ -73,7 +73,8 @@
   .menu-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; cursor: pointer; color: var(--accent-cyan); font-size: 1.3rem; line-height: 1; }
 
   /* HERO */
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 4rem 4rem; position: relative; z-index: 1; }
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 4rem; position: relative; z-index: 1; gap: 2rem; }
+  .hero-content { flex: 1; min-width: 0; }
   .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--accent-magenta); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: slideUp 0.8s 0.2s forwards; }
   .hero h1 { font-family: 'Orbitron', monospace; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; opacity: 0; animation: slideUp 0.8s 0.4s forwards; }
   .hero h1 .accent { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -81,6 +82,59 @@
   .hero-stats { display: flex; gap: 3rem; opacity: 0; animation: slideUp 0.8s 0.8s forwards; }
   .stat-number { font-family: 'Orbitron', monospace; font-size: 2.2rem; font-weight: 800; color: var(--accent-cyan); text-shadow: var(--glow-cyan); }
   .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; }
+
+  /* SKILL SPHERE */
+  .sphere-wrap {
+    flex: 0 0 480px;
+    height: 480px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 1.5s 1s forwards;
+  }
+  .sphere-glow {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, rgba(255,0,170,0.04) 50%, transparent 70%);
+    pointer-events: none;
+  }
+  .sphere-ring {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,240,255,0.08);
+    pointer-events: none;
+  }
+  .sphere-ring:nth-of-type(2) { width: 380px; height: 380px; border-color: rgba(255,0,170,0.05); }
+  .sphere-container {
+    width: 480px;
+    height: 480px;
+    position: relative;
+    perspective: 800px;
+  }
+  .skill-word {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: color 0.3s, text-shadow 0.3s;
+    cursor: default;
+    will-change: transform;
+  }
+  .skill-word:hover {
+    color: var(--accent-cyan) !important;
+    text-shadow: var(--glow-cyan) !important;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   /* SECTIONS */
   section { padding: 6rem 4rem; position: relative; z-index: 1; }
@@ -169,15 +223,16 @@
   @keyframes float { 0%, 100% { transform: translate(0,0); } 33% { transform: translate(30px,-30px); } 66% { transform: translate(-20px,20px); } }
   .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
-  .no-js .reveal { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
     nav { padding: 0.8rem 1.2rem; }
     .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); padding: 1rem 1.5rem; gap: 0.8rem; border-bottom: 1px solid var(--border); }
     .nav-links.open { display: flex; }
     .menu-toggle { display: block; }
-    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero { padding: 7rem 1.5rem 3rem; flex-direction: column; }
     .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .sphere-wrap { flex: 0 0 300px; height: 300px; width: 300px; }
+    .sphere-container { width: 300px; height: 300px; }
     section { padding: 4rem 1.5rem; }
     .projects-row { grid-template-columns: 1fr; }
     .skills-container { grid-template-columns: 1fr; }
@@ -209,13 +264,21 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-tag">// Senior Game Designer</div>
-  <h1>KONSTANTIN<br><span class="accent">TIKHONOV</span></h1>
-  <p class="hero-desc">Designing PvP systems, game economies, and monetization that drive engagement and revenue. 7+ years shipping F2P titles across mobile, PC, and VR &mdash; from concept to live ops.</p>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-number">7+</div><div class="stat-label">Years Experience</div></div>
-    <div class="stat"><div class="stat-number">5</div><div class="stat-label">Studios</div></div>
-    <div class="stat"><div class="stat-number">6+</div><div class="stat-label">Shipped Titles</div></div>
+  <div class="hero-content">
+    <div class="hero-tag">// Game Creator &middot; Systems Architect &middot; Economy Strategist</div>
+    <h1>KONSTANTIN<br><span class="accent">TIKHONOV</span></h1>
+    <p class="hero-desc">Designing PvP systems, game economies, and monetization that drive engagement and revenue. 7+ years shipping F2P titles across mobile, PC, and VR &mdash; from concept to live ops.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-number">7+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-number">5</div><div class="stat-label">Studios</div></div>
+      <div class="stat"><div class="stat-number">6+</div><div class="stat-label">Shipped Titles</div></div>
+    </div>
+  </div>
+  <div class="sphere-wrap">
+    <div class="sphere-glow"></div>
+    <div class="sphere-ring"></div>
+    <div class="sphere-ring"></div>
+    <div class="sphere-container" id="skillSphere"></div>
   </div>
 </section>
 
@@ -443,9 +506,9 @@
   <div class="contact-text reveal">
     <p>Open to freelance projects, consulting, and full-time opportunities in game design, systems design, and product management. Based in Spain, working with teams globally.</p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#e3978a888b8c8d8c8585dad0a3848e828a8fcd808c8e" class="contact-link">
+      <a href="mailto:tikhonoff93@gmail.com" class="contact-link">
         <span class="contact-link-icon">Email</span>
-        <span class="contact-link-value"><span class="__cf_email__" data-cfemail="790d1012111617161f1f404a391e14181015571a1614">[email&#160;protected]</span></span>
+        <span class="contact-link-value">tikhonoff93@gmail.com</span>
       </a>
       <a href="tel:+34651421726" class="contact-link">
         <span class="contact-link-icon">Phone</span>
@@ -468,6 +531,114 @@
 </footer>
 
 <script>
+  // ── SKILL SPHERE ──
+  (function() {
+    var skills = [
+      'Systems Design', 'PvP Balance', 'Game Economy', 'Monetization',
+      'LiveOps', 'F2P', 'Matchmaking', 'Level Design',
+      'Team Lead', 'Product', 'GDD', 'UX',
+      'Analytics', 'Elo Rating', 'Tokenomics', 'JSON',
+      'MVP', 'Gacha', 'Events', 'Battle Pass',
+      'Mobile', 'VR', 'Co-op', 'Survival'
+    ];
+
+    var container = document.getElementById('skillSphere');
+    if (!container) return;
+
+    var radius = Math.min(container.offsetWidth, container.offsetHeight) * 0.4;
+    var words = [];
+    var total = skills.length;
+
+    // Distribute points on sphere using golden spiral
+    for (var i = 0; i < total; i++) {
+      var phi = Math.acos(1 - 2 * (i + 0.5) / total);
+      var theta = Math.PI * (1 + Math.sqrt(5)) * i;
+
+      var span = document.createElement('span');
+      span.className = 'skill-word';
+      span.textContent = skills[i];
+
+      // Size variation based on importance
+      var size = i < 6 ? 0.85 : (i < 14 ? 0.7 : 0.58);
+      span.style.fontSize = size + 'rem';
+
+      container.appendChild(span);
+      words.push({
+        el: span,
+        phi: phi,
+        theta: theta
+      });
+    }
+
+    var angleX = 0;
+    var angleY = 0;
+    var autoSpeed = 0.003;
+    var mouseX = 0;
+    var mouseY = 0;
+    var isHovering = false;
+
+    container.addEventListener('mousemove', function(e) {
+      var rect = container.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+      mouseY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+      isHovering = true;
+    });
+
+    container.addEventListener('mouseleave', function() {
+      isHovering = false;
+    });
+
+    function animate() {
+      if (isHovering) {
+        angleY += mouseX * 0.012;
+        angleX += mouseY * 0.012;
+      } else {
+        angleY += autoSpeed;
+        angleX += autoSpeed * 0.3;
+      }
+
+      for (var i = 0; i < words.length; i++) {
+        var w = words[i];
+
+        // Spherical to cartesian
+        var x = radius * Math.sin(w.phi) * Math.cos(w.theta + angleY);
+        var y = radius * Math.cos(w.phi + angleX * 0.5);
+        var z = radius * Math.sin(w.phi) * Math.sin(w.theta + angleY);
+
+        // Rotate around X axis
+        var cosX = Math.cos(angleX * 0.3);
+        var sinX = Math.sin(angleX * 0.3);
+        var y2 = y * cosX - z * sinX;
+        var z2 = y * sinX + z * cosX;
+
+        // Depth-based styling
+        var depth = (z2 + radius) / (2 * radius); // 0 (back) to 1 (front)
+        var opacity = 0.15 + depth * 0.85;
+        var scale = 0.6 + depth * 0.4;
+
+        // Color interpolation: back = dim, front = cyan/magenta
+        var r, g, b;
+        if (depth > 0.6) {
+          // Front words: cyan to magenta gradient based on position
+          var t = (i % 3) / 2;
+          r = Math.round(0 + t * 255);
+          g = Math.round(240 - t * 240);
+          b = Math.round(255 - t * 85);
+        } else {
+          r = 85; g = 85; b = 112;
+        }
+
+        w.el.style.transform = 'translate(-50%, -50%) translate3d(' + x.toFixed(1) + 'px,' + y2.toFixed(1) + 'px,' + z2.toFixed(1) + 'px) scale(' + scale.toFixed(2) + ')';
+        w.el.style.opacity = opacity.toFixed(2);
+        w.el.style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
+        w.el.style.zIndex = Math.round(depth * 100);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  })();
   // Reveal on scroll with fallback
   document.addEventListener('DOMContentLoaded', function() {
     var reveals = document.querySelectorAll('.reveal');
