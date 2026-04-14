@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konstantin Tikhonov — Senior Game Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121c;
+    --bg-card-hover: #1a1a2e;
+    --accent-cyan: #00f0ff;
+    --accent-magenta: #ff00aa;
+    --accent-purple: #8b5cf6;
+    --text-primary: #e8e8f0;
+    --text-secondary: #8888a8;
+    --text-dim: #555570;
+    --border: #1e1e35;
+    --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3);
+    --glow-magenta: 0 0 20px rgba(255, 0, 170, 0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-cyan) var(--bg-deep);
+  }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: 'Orbitron', monospace; font-weight: 800; font-size: 1.1rem; letter-spacing: 2px; color: var(--accent-cyan); text-transform: uppercase; }
+  .nav-logo span { color: var(--accent-magenta); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.9rem;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-secondary); text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s; position: relative;
+  }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent-cyan); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--accent-cyan); text-shadow: var(--glow-cyan); }
+  .nav-links a:hover::after { width: 100%; }
+  .menu-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; cursor: pointer; color: var(--accent-cyan); font-size: 1.3rem; line-height: 1; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 4rem 4rem; position: relative; z-index: 1; }
+  .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--accent-magenta); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: slideUp 0.8s 0.2s forwards; }
+  .hero h1 { font-family: 'Orbitron', monospace; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; opacity: 0; animation: slideUp 0.8s 0.4s forwards; }
+  .hero h1 .accent { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-desc { font-size: 1.25rem; color: var(--text-secondary); max-width: 620px; line-height: 1.8; margin-bottom: 2.5rem; opacity: 0; animation: slideUp 0.8s 0.6s forwards; }
+  .hero-stats { display: flex; gap: 3rem; opacity: 0; animation: slideUp 0.8s 0.8s forwards; }
+  .stat-number { font-family: 'Orbitron', monospace; font-size: 2.2rem; font-weight: 800; color: var(--accent-cyan); text-shadow: var(--glow-cyan); }
+  .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; position: relative; z-index: 1; }
+  .section-header { margin-bottom: 4rem; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent-magenta); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .section-title { font-family: 'Orbitron', monospace; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 700; }
+  .section-title .accent { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  /* PROJECTS */
+  .company-block { margin-bottom: 3.5rem; }
+  .company-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .company-name { font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 700; }
+  .company-link { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent-cyan); text-decoration: none; letter-spacing: 1px; opacity: 0.7; transition: opacity 0.3s; }
+  .company-link:hover { opacity: 1; }
+  .projects-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative; overflow: hidden; text-decoration: none; color: inherit; display: block;
+  }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); opacity: 0; transition: opacity 0.4s; }
+  .project-card:hover { background: var(--bg-card-hover); border-color: rgba(0,240,255,0.2); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-cyan); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card h3 { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .project-platform { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
+  .project-desc { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; padding: 0.3rem 0.7rem; border-radius: 50px; border: 1px solid var(--border); color: var(--text-dim); text-transform: uppercase; transition: all 0.3s; }
+  .project-card:hover .tag { border-color: rgba(0,240,255,0.2); color: var(--text-secondary); }
+  .project-arrow { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--text-dim); transition: all 0.3s; }
+  .project-card:hover .project-arrow { color: var(--accent-cyan); transform: translate(3px, -3px); }
+
+  /* SKILLS */
+  .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+  .skill-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: border-color 0.3s; }
+  .skill-group:hover { border-color: rgba(0,240,255,0.15); }
+  .skill-group-title { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; color: var(--accent-cyan); }
+  .skill-item { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(30,30,53,0.6); }
+  .skill-item:last-child { border-bottom: none; }
+  .skill-name { font-size: 0.95rem; color: var(--text-secondary); }
+  .skill-bar { width: 80px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .skill-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 3rem; max-width: 800px; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-magenta), transparent); }
+  .timeline-item { position: relative; margin-bottom: 3rem; padding-left: 1rem; }
+  .timeline-item::before { content: ''; position: absolute; left: -3.35rem; top: 0.5rem; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-cyan); box-shadow: var(--glow-cyan); }
+  .timeline-date { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent-magenta); letter-spacing: 2px; margin-bottom: 0.4rem; }
+  .timeline-role { font-family: 'Orbitron', monospace; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .timeline-company { font-size: 0.9rem; color: var(--accent-cyan); margin-bottom: 0.3rem; }
+  .timeline-location { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.75rem; letter-spacing: 1px; }
+  .timeline-highlights { list-style: none; padding: 0; }
+  .timeline-highlights li { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; padding: 0.2rem 0 0.2rem 1.2rem; position: relative; }
+  .timeline-highlights li::before { content: '▹'; position: absolute; left: 0; color: var(--accent-cyan); font-size: 0.8rem; }
+
+  /* EDUCATION */
+  .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 900px; }
+  .edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: border-color 0.3s; }
+  .edu-card:hover { border-color: rgba(0,240,255,0.15); }
+  .edu-years { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent-magenta); letter-spacing: 2px; margin-bottom: 0.5rem; }
+  .edu-degree { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .edu-school { font-size: 0.85rem; color: var(--text-secondary); }
+
+  /* CONTACT */
+  .contact-text { max-width: 550px; }
+  .contact-text p { font-size: 1.15rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 2.5rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text-primary); transition: all 0.3s; font-size: 1rem; }
+  .contact-link:hover { border-color: var(--accent-cyan); background: var(--bg-card-hover); box-shadow: var(--glow-cyan); transform: translateX(8px); }
+  .contact-link-icon { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent-cyan); min-width: 85px; letter-spacing: 1px; text-transform: uppercase; }
+  .contact-link-value { color: var(--text-secondary); transition: color 0.3s; }
+  .contact-link:hover .contact-link-value { color: var(--text-primary); }
+
+  /* FOOTER */
+  footer { padding: 3rem 4rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 1; }
+  footer p { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); letter-spacing: 2px; }
+
+  /* ORBS */
+  .orb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+  .orb-1 { width: 500px; height: 500px; background: rgba(0,240,255,0.06); top: -100px; right: -100px; animation: float 12s ease-in-out infinite; }
+  .orb-2 { width: 400px; height: 400px; background: rgba(255,0,170,0.05); bottom: 20%; left: -150px; animation: float 15s ease-in-out infinite reverse; }
+  .orb-3 { width: 350px; height: 350px; background: rgba(139,92,246,0.04); top: 50%; right: 10%; animation: float 18s ease-in-out infinite; }
+
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes float { 0%, 100% { transform: translate(0,0); } 33% { transform: translate(30px,-30px); } 66% { transform: translate(-20px,20px); } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    nav { padding: 0.8rem 1.2rem; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); padding: 1rem 1.5rem; gap: 0.8rem; border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .menu-toggle { display: block; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    section { padding: 4rem 1.5rem; }
+    .projects-row { grid-template-columns: 1fr; }
+    .skills-container { grid-template-columns: 1fr; }
+    .education-grid { grid-template-columns: 1fr; }
+    .timeline { padding-left: 2rem; }
+    .timeline-item { padding-left: 0.5rem; }
+    .timeline-item::before { left: -2.35rem; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<nav>
+  <div class="nav-logo">KT<span>.</span>DESIGN</div>
+  <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+  <ul class="nav-links">
+    <li><a href="#projects" onclick="this.closest('.nav-links').classList.remove('open')">Projects</a></li>
+    <li><a href="#skills" onclick="this.closest('.nav-links').classList.remove('open')">Skills</a></li>
+    <li><a href="#experience" onclick="this.closest('.nav-links').classList.remove('open')">Experience</a></li>
+    <li><a href="#education" onclick="this.closest('.nav-links').classList.remove('open')">Education</a></li>
+    <li><a href="#contact" onclick="this.closest('.nav-links').classList.remove('open')">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">// Senior Game Designer</div>
+  <h1>KONSTANTIN<br><span class="accent">TIKHONOV</span></h1>
+  <p class="hero-desc">Designing PvP systems, game economies, and monetization that drive engagement and revenue. 7+ years shipping F2P titles across mobile, PC, and VR &mdash; from concept to live ops.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-number">7+</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat"><div class="stat-number">5</div><div class="stat-label">Studios</div></div>
+    <div class="stat"><div class="stat-number">6+</div><div class="stat-label">Shipped Titles</div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <div class="section-label">// 01 &mdash; Portfolio</div>
+    <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
+  </div>
+
+  <div class="company-block reveal">
+    <div class="company-header">
+      <span class="company-name">Nexters ($GDEV)</span>
+      <a href="https://www.nexters.com/" target="_blank" class="company-link">nexters.com &#8599;</a>
+    </div>
+    <div class="projects-row">
+      <a href="https://www.hero-wars.com/" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Hero Wars: Online Action RPG</h3>
+        <div class="project-platform">Web &middot; Mobile</div>
+        <p class="project-desc">Designed full PvP 5v5 league system &mdash; matchmaking, rankings, divisions, rewards. Built rating-based matchmaking with adaptive difficulty and bot generation. Owned MVP scoping, UX structure, and economy balancing.</p>
+        <div class="project-tags"><span class="tag">PvP Leagues</span><span class="tag">Matchmaking</span><span class="tag">Monetization</span><span class="tag">LiveOps</span></div>
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.nexters.herowars&hl=es" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Hero Wars: Alliance</h3>
+        <div class="project-platform">Mobile &middot; Android / iOS</div>
+        <p class="project-desc">Detailed GDD and UX specifications across all core screens. Designed "Heroes of the Week" meta-rotation feature, revenge battles with guild hero borrowing, and dynamic rewards based on power delta.</p>
+        <div class="project-tags"><span class="tag">GDD</span><span class="tag">UX Specs</span><span class="tag">Meta Design</span><span class="tag">Rewards</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="company-block reveal">
+    <div class="company-header">
+      <span class="company-name">CM Games</span>
+      <a href="https://cm.games/" target="_blank" class="company-link">cm.games &#8599;</a>
+    </div>
+    <div class="projects-row">
+      <a href="https://apps.apple.com/us/app/nitro-nation-drag-racing/id985158853" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Nitro Nation: Drag Racing</h3>
+        <div class="project-platform">Mobile &middot; iOS / Android</div>
+        <p class="project-desc">End-to-end live ops from scratch to release. In-game store design &mdash; offers, gachas, technical assembly. Vehicle setup, car physics, upgrades. PvP with Elo rating and gear score system.</p>
+        <div class="project-tags"><span class="tag">LiveOps</span><span class="tag">Store / Gacha</span><span class="tag">PvP / Elo</span><span class="tag">Economy</span></div>
+      </a>
+      <a href="https://cm.games/games/nitro-nation-world-tour" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Nitro Nation: World Tour</h3>
+        <div class="project-platform">Mobile</div>
+        <p class="project-desc">Project economy and tokenomics. Product analytics, hypothesis testing, and accountability for results. Feature owner-generalist across multiple game systems.</p>
+        <div class="project-tags"><span class="tag">Tokenomics</span><span class="tag">Analytics</span><span class="tag">Product</span></div>
+      </a>
+      <a href="https://store.steampowered.com/app/1012790/Into_the_Radius_VR/" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Into the Radius</h3>
+        <div class="project-platform">PC &middot; VR &middot; Steam</div>
+        <p class="project-desc">Product management and game design contributions to a critically acclaimed VR survival-horror experience set in the Pechorsk Radius anomaly zone.</p>
+        <div class="project-tags"><span class="tag">VR</span><span class="tag">Survival</span><span class="tag">Product</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="company-block reveal">
+    <div class="company-header">
+      <span class="company-name">Kefir Games</span>
+      <a href="https://kefirgames.com/" target="_blank" class="company-link">kefirgames.com &#8599;</a>
+    </div>
+    <div class="projects-row">
+      <a href="https://apps.apple.com/us/app/last-day-on-earth-survival/id1241932094" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Last Day on Earth: Survival</h3>
+        <div class="project-platform">Mobile &middot; iOS / Android</div>
+        <p class="project-desc">Live ops and in-game store design. Balancing item costs across the full economy. New bosses, locations, events, activities, and mechanics. Level design and location assembly.</p>
+        <div class="project-tags"><span class="tag">LiveOps</span><span class="tag">Economy</span><span class="tag">Level Design</span><span class="tag">Monetization</span></div>
+      </a>
+      <a href="https://apps.apple.com/us/app/frostborn-co-op-survival/id1477237220" target="_blank" class="project-card">
+        <span class="project-arrow">&#8599;</span>
+        <h3>Frostborn: Co-op Survival</h3>
+        <div class="project-platform">Mobile &middot; iOS / Android</div>
+        <p class="project-desc">Game design contributions to a co-op survival action RPG. Worked with JSON configs, monetization mechanics, and content creation for events and activities.</p>
+        <div class="project-tags"><span class="tag">Co-op</span><span class="tag">Survival</span><span class="tag">Content Design</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="section-label">// 02 &mdash; Expertise</div>
+    <h2 class="section-title">Core <span class="accent">Skills</span></h2>
+  </div>
+  <div class="skills-container">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Game Design</div>
+      <div class="skill-item"><span class="skill-name">Systems Design</span><div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">PvP &amp; Competitive Balance</span><div class="skill-bar"><div class="skill-bar-fill" style="width:93%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Game Economy &amp; Tokenomics</span><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Monetization &amp; F2P</span><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">LiveOps &amp; Events</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Level Design</span><div class="skill-bar"><div class="skill-bar-fill" style="width:82%"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Production &amp; Product</div>
+      <div class="skill-item"><span class="skill-name">Team Leadership</span><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Product Management</span><div class="skill-bar"><div class="skill-bar-fill" style="width:87%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">GDD &amp; UX Specifications</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Product Analytics</span><div class="skill-bar"><div class="skill-bar-fill" style="width:83%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">MVP Scoping &amp; Iteration</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Technical</div>
+      <div class="skill-item"><span class="skill-name">JSON / Config Systems</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Matchmaking Algorithms</span><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Mobile Development</span><div class="skill-bar"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+      <div class="skill-item"><span class="skill-name">Web Development</span><div class="skill-bar"><div class="skill-bar-fill" style="width:73%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <div class="section-label">// 03 &mdash; Career Path</div>
+    <h2 class="section-title">Work <span class="accent">Experience</span></h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Sep 2024 &mdash; Present</div>
+      <div class="timeline-role">Senior Game Designer</div>
+      <div class="timeline-company">Nexters ($GDEV)</div>
+      <div class="timeline-location">Cyprus</div>
+      <ul class="timeline-highlights">
+        <li>Designed full PvP 5v5 league system: matchmaking, rankings, rewards, and divisions</li>
+        <li>Built rating-based matchmaking with power dispersion and adaptive difficulty</li>
+        <li>Developed scalable bot generation logic tailored to player strength and league</li>
+        <li>Designed monetization: tiered league offers, dynamic attempt costs</li>
+        <li>&ldquo;Heroes of the Week&rdquo; feature to influence meta and encourage variation</li>
+        <li>Owned MVP scoping, iteration planning, and economy balancing with live config sheets</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Sep 2022 &mdash; Aug 2024</div>
+      <div class="timeline-role">Senior Game Designer / Senior Product Manager</div>
+      <div class="timeline-company">CM Games</div>
+      <div class="timeline-location">Tallinn, Estonia</div>
+      <ul class="timeline-highlights">
+        <li>End-to-end live ops from scratch to release, planning, and support</li>
+        <li>In-game store: offers, gachas, technical assembly, interfaces</li>
+        <li>Project economy and tokenomics</li>
+        <li>PvP with Elo rating and gear score systems</li>
+        <li>Product analytics, hypotheses, solutions, accountability for results</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Sep 2020 &mdash; Aug 2022</div>
+      <div class="timeline-role">Game Producer</div>
+      <div class="timeline-company">LLC SIRIDAR</div>
+      <div class="timeline-location">Vietnam</div>
+      <ul class="timeline-highlights">
+        <li>Development of a midcore MMORPG Survival concept from scratch</li>
+        <li>Defined core mechanics, plot, genre, and overall game direction</li>
+        <li>Full project lifecycle management from concept to release</li>
+        <li>Budget control, team coordination, and client communication</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Aug 2019 &mdash; Sep 2020</div>
+      <div class="timeline-role">Lead Game Designer</div>
+      <div class="timeline-company">Fmedia Group</div>
+      <div class="timeline-location">Edinburgh, Scotland, UK</div>
+      <ul class="timeline-highlights">
+        <li>Competitor analysis in casual games and hidden object niche</li>
+        <li>Project support from scratch to release</li>
+        <li>Led a team of 5 people</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-date">Jul 2018 &mdash; Aug 2019</div>
+      <div class="timeline-role">Game Designer</div>
+      <div class="timeline-company">Kefir Games</div>
+      <div class="timeline-location">Cyprus</div>
+      <ul class="timeline-highlights">
+        <li>Live ops and in-game store design</li>
+        <li>Balancing and calculating item costs across the economy</li>
+        <li>Level design, location assembly, new bosses, events, and mechanics</li>
+        <li>Working with monetization and JSON configs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header reveal">
+    <div class="section-label">// 04 &mdash; Education</div>
+    <h2 class="section-title">Academic <span class="accent">Background</span></h2>
+  </div>
+  <div class="education-grid">
+    <div class="edu-card reveal">
+      <div class="edu-years">2020 &mdash; 2025</div>
+      <div class="edu-degree">Bachelor&rsquo;s &mdash; Computer Science &amp; Engineering</div>
+      <div class="edu-school">Peter the Great St. Petersburg Polytechnic University</div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-years">2016 &mdash; 2020</div>
+      <div class="edu-degree">Secondary Professional &mdash; Computer Programming</div>
+      <div class="edu-school">Peter the Great St. Petersburg Polytechnic University</div>
+    </div>
+    <div class="edu-card reveal">
+      <div class="edu-years">2010 &mdash; 2012</div>
+      <div class="edu-degree">Information Technology</div>
+      <div class="edu-school">ITMO University</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-label">// 05 &mdash; Get in Touch</div>
+    <h2 class="section-title">Let&rsquo;s <span class="accent">Connect</span></h2>
+  </div>
+  <div class="contact-text reveal">
+    <p>Open to freelance projects, consulting, and full-time opportunities in game design, systems design, and product management. Based in Spain, working with teams globally.</p>
+    <div class="contact-links">
+      <a href="/cdn-cgi/l/email-protection#e3978a888b8c8d8c8585dad0a3848e828a8fcd808c8e" class="contact-link">
+        <span class="contact-link-icon">Email</span>
+        <span class="contact-link-value"><span class="__cf_email__" data-cfemail="790d1012111617161f1f404a391e14181015571a1614">[email&#160;protected]</span></span>
+      </a>
+      <a href="tel:+34651421726" class="contact-link">
+        <span class="contact-link-icon">Phone</span>
+        <span class="contact-link-value">+34 651 421 726</span>
+      </a>
+      <a href="https://www.linkedin.com/in/konstantin-t-50157b149/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">LinkedIn</span>
+        <span class="contact-link-value">linkedin.com/in/konstantin-t</span>
+      </a>
+      <a href="https://t.me/t1xonov" target="_blank" class="contact-link">
+        <span class="contact-link-icon">Telegram</span>
+        <span class="contact-link-value">@t1xonov</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2020 Konstantin Tikhonov. All rights reserved.</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let curren
