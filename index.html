@@ -169,6 +169,7 @@
   @keyframes float { 0%, 100% { transform: translate(0,0); } 33% { transform: translate(30px,-30px); } 66% { transform: translate(-20px,20px); } }
   .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+  .no-js .reveal { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
     nav { padding: 0.8rem 1.2rem; }
@@ -466,19 +467,41 @@
   <p>&copy; 2020 Konstantin Tikhonov. All rights reserved.</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
+<script>
+  // Reveal on scroll with fallback
+  document.addEventListener('DOMContentLoaded', function() {
+    var reveals = document.querySelectorAll('.reveal');
 
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let curren
+    // Fallback: if IntersectionObserver not supported or fails, show everything
+    if (!('IntersectionObserver' in window)) {
+      reveals.forEach(function(el) { el.classList.add('visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px 50px 0px' });
+
+    reveals.forEach(function(el) { observer.observe(el); });
+
+    // Safety net: show all after 3 seconds regardless
+    setTimeout(function() {
+      reveals.forEach(function(el) { el.classList.add('visible'); });
+    }, 3000);
+  });
+
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', function() {
+    var current = '';
+    sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+    navLinks.forEach(function(a) { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent-cyan)' : ''; });
+  });
+</script>
+</body>
+</html>
