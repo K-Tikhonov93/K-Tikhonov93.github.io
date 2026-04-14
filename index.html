@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,57 +21,30 @@
     --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.3);
     --glow-magenta: 0 0 20px rgba(255, 0, 170, 0.3);
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html {
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent-cyan) var(--bg-deep);
-  }
-
-  body {
-    font-family: 'Rajdhani', sans-serif;
-    background: var(--bg-deep);
-    color: var(--text-primary);
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-
+  html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--accent-cyan) var(--bg-deep); }
+  body { font-family: 'Rajdhani', sans-serif; background: var(--bg-deep); color: var(--text-primary); overflow-x: hidden; line-height: 1.6; }
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
+    content: ''; position: fixed; inset: 0;
+    background: linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px; pointer-events: none; z-index: 0;
   }
 
   /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 1rem 2rem;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
   .nav-logo { font-family: 'Orbitron', monospace; font-weight: 800; font-size: 1.1rem; letter-spacing: 2px; color: var(--accent-cyan); text-transform: uppercase; }
   .nav-logo span { color: var(--accent-magenta); }
+  .nav-right { display: flex; align-items: center; gap: 0; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.9rem;
-    letter-spacing: 2px; text-transform: uppercase;
-    color: var(--text-secondary); text-decoration: none;
-    transition: color 0.3s, text-shadow 0.3s; position: relative;
-  }
+  .nav-links a { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; transition: color 0.3s, text-shadow 0.3s; position: relative; }
   .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent-cyan); transition: width 0.3s; }
   .nav-links a:hover { color: var(--accent-cyan); text-shadow: var(--glow-cyan); }
   .nav-links a:hover::after { width: 100%; }
   .menu-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem; cursor: pointer; color: var(--accent-cyan); font-size: 1.3rem; line-height: 1; }
+  .lang-switch { display: flex; gap: 0.25rem; margin-left: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.2rem; }
+  .lang-btn { font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; padding: 0.3rem 0.6rem; border: none; border-radius: 4px; background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.3s; }
+  .lang-btn:hover { color: var(--text-secondary); }
+  .lang-btn.active { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); color: var(--bg-deep); }
 
   /* HERO */
   .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 4rem; position: relative; z-index: 1; }
@@ -86,56 +59,13 @@
   .stat-label { font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; }
 
   /* SKILL SPHERE */
-  .sphere-wrap {
-    flex: 0 0 480px;
-    height: 480px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    animation: fadeIn 1.5s 1s forwards;
-  }
-  .sphere-glow {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, rgba(255,0,170,0.04) 50%, transparent 70%);
-    pointer-events: none;
-  }
-  .sphere-ring {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,240,255,0.08);
-    pointer-events: none;
-  }
-  .sphere-ring:nth-of-type(2) { width: 380px; height: 380px; border-color: rgba(255,0,170,0.05); }
-  .sphere-container {
-    width: 480px;
-    height: 480px;
-    position: relative;
-    perspective: 800px;
-  }
-  .skill-word {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    font-family: 'Orbitron', monospace;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap;
-    transition: color 0.3s, text-shadow 0.3s;
-    cursor: default;
-    will-change: transform;
-  }
-  .skill-word:hover {
-    color: var(--accent-cyan) !important;
-    text-shadow: var(--glow-cyan) !important;
-  }
+  .sphere-wrap { flex: 0 0 720px; height: 720px; position: relative; display: flex; align-items: center; justify-content: center; opacity: 0; animation: fadeIn 1.5s 1s forwards; }
+  .sphere-glow { position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, rgba(255,0,170,0.04) 50%, transparent 70%); pointer-events: none; }
+  .sphere-ring { position: absolute; width: 450px; height: 450px; border-radius: 50%; border: 1px solid rgba(0,240,255,0.08); pointer-events: none; }
+  .sphere-ring:nth-of-type(2) { width: 570px; height: 570px; border-color: rgba(255,0,170,0.05); }
+  .sphere-container { width: 720px; height: 720px; position: relative; perspective: 1200px; }
+  .skill-word { position: absolute; left: 50%; top: 50%; font-family: 'Orbitron', monospace; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; transition: color 0.3s, text-shadow 0.3s; cursor: default; will-change: transform; }
+  .skill-word:hover { color: var(--accent-cyan) !important; text-shadow: var(--glow-cyan) !important; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   /* SECTIONS */
@@ -153,11 +83,7 @@
   .company-link { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent-cyan); text-decoration: none; letter-spacing: 1px; opacity: 0.7; transition: opacity 0.3s; }
   .company-link:hover { opacity: 1; }
   .projects-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-  .project-card {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative; overflow: hidden; text-decoration: none; color: inherit; display: block;
-  }
+  .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94); position: relative; overflow: hidden; text-decoration: none; color: inherit; display: block; }
   .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); opacity: 0; transition: opacity 0.4s; }
   .project-card:hover { background: var(--bg-card-hover); border-color: rgba(0,240,255,0.2); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-cyan); }
   .project-card:hover::before { opacity: 1; }
@@ -168,7 +94,7 @@
   .tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; padding: 0.3rem 0.7rem; border-radius: 50px; border: 1px solid var(--border); color: var(--text-dim); text-transform: uppercase; transition: all 0.3s; }
   .project-card:hover .tag { border-color: rgba(0,240,255,0.2); color: var(--text-secondary); }
   .project-arrow { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--text-dim); transition: all 0.3s; }
-  .project-card:hover .project-arrow { color: var(--accent-cyan); transform: translate(3px, -3px); }
+  .project-card:hover .project-arrow { color: var(--accent-cyan); transform: translate(3px,-3px); }
 
   /* SKILLS */
   .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
@@ -192,7 +118,7 @@
   .timeline-location { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.75rem; letter-spacing: 1px; }
   .timeline-highlights { list-style: none; padding: 0; }
   .timeline-highlights li { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; padding: 0.2rem 0 0.2rem 1.2rem; position: relative; }
-  .timeline-highlights li::before { content: '▹'; position: absolute; left: 0; color: var(--accent-cyan); font-size: 0.8rem; }
+  .timeline-highlights li::before { content: '\25B9'; position: absolute; left: 0; color: var(--accent-cyan); font-size: 0.8rem; }
 
   /* EDUCATION */
   .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto; }
@@ -232,11 +158,12 @@
     .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); padding: 1rem 1.5rem; gap: 0.8rem; border-bottom: 1px solid var(--border); }
     .nav-links.open { display: flex; }
     .menu-toggle { display: block; }
+    .lang-switch { margin-left: 0.75rem; }
     .hero { padding: 7rem 1.5rem 3rem; }
     .hero-inner { flex-direction: column; gap: 2rem; }
     .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-    .sphere-wrap { flex: 0 0 300px; height: 300px; width: 300px; }
-    .sphere-container { width: 300px; height: 300px; }
+    .sphere-wrap { flex: 0 0 340px; height: 340px; width: 340px; }
+    .sphere-container { width: 340px; height: 340px; }
     section { padding: 4rem 1.5rem; }
     .projects-row { grid-template-columns: 1fr; }
     .skills-container { grid-template-columns: 1fr; }
@@ -257,26 +184,33 @@
 <nav>
   <div class="nav-logo">KT<span>.</span>DESIGN</div>
   <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+  <div class="nav-right">
   <ul class="nav-links">
-    <li><a href="#projects" onclick="this.closest('.nav-links').classList.remove('open')">Projects</a></li>
-    <li><a href="#skills" onclick="this.closest('.nav-links').classList.remove('open')">Skills</a></li>
-    <li><a href="#experience" onclick="this.closest('.nav-links').classList.remove('open')">Experience</a></li>
-    <li><a href="#education" onclick="this.closest('.nav-links').classList.remove('open')">Education</a></li>
-    <li><a href="#contact" onclick="this.closest('.nav-links').classList.remove('open')">Contact</a></li>
+    <li><a href="#projects" data-i18n="nav_projects">Proyectos</a></li>
+    <li><a href="#skills" data-i18n="nav_skills">Habilidades</a></li>
+    <li><a href="#experience" data-i18n="nav_exp">Experiencia</a></li>
+    <li><a href="#education" data-i18n="nav_edu">Formaci&oacute;n</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contacto</a></li>
   </ul>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+  </div>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
   <div class="hero-content">
-    <div class="hero-tag">// Game Creator &middot; Systems Architect &middot; Economy Strategist</div>
+    <div class="hero-tag" data-i18n="hero_tag">// Creador de Juegos &middot; Arquitecto de Sistemas &middot; Estratega de Econom&iacute;a</div>
     <h1>KONSTANTIN<br><span class="accent">TIKHONOV</span></h1>
-    <p class="hero-desc">Designing PvP systems, game economies, and monetization that drive engagement and revenue. 7+ years shipping F2P titles across mobile, PC, and VR &mdash; from concept to live ops.</p>
+    <p class="hero-desc" data-i18n="hero_desc">Dise&ntilde;o de sistemas PvP, econom&iacute;as de juego y monetizaci&oacute;n que impulsan el engagement y los ingresos. M&aacute;s de 7 a&ntilde;os lanzando t&iacute;tulos F2P en m&oacute;vil, PC y VR.</p>
     <div class="hero-stats">
-      <div class="stat"><div class="stat-number">7+</div><div class="stat-label">Years Experience</div></div>
-      <div class="stat"><div class="stat-number">5</div><div class="stat-label">Studios</div></div>
-      <div class="stat"><div class="stat-number">6+</div><div class="stat-label">Shipped Titles</div></div>
+      <div class="stat"><div class="stat-number">7+</div><div class="stat-label" data-i18n="stat_years">A&ntilde;os de experiencia</div></div>
+      <div class="stat"><div class="stat-number">5</div><div class="stat-label" data-i18n="stat_studios">Estudios</div></div>
+      <div class="stat"><div class="stat-number">6+</div><div class="stat-label" data-i18n="stat_titles">T&iacute;tulos lanzados</div></div>
     </div>
   </div>
   <div class="sphere-wrap">
@@ -287,10 +221,12 @@
   </div>
   </div>
 </section>
+
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-header reveal">
-    <div class="section-label">// 01 &mdash; Portfolio</div>
-    <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
+    <div class="section-label" data-i18n="s1_label">// 01 &mdash; Portafolio</div>
+    <h2 class="section-title" data-i18n="s1_title"><span class="accent">Proyectos</span> destacados</h2>
   </div>
 
   <div class="company-block reveal">
@@ -303,14 +239,14 @@
         <span class="project-arrow">&#8599;</span>
         <h3>Hero Wars: Online Action RPG</h3>
         <div class="project-platform">Web &middot; Mobile</div>
-        <p class="project-desc">Designed full PvP 5v5 league system &mdash; matchmaking, rankings, divisions, rewards. Built rating-based matchmaking with adaptive difficulty and bot generation. Owned MVP scoping, UX structure, and economy balancing.</p>
+        <p class="project-desc" data-i18n="p_hw1">Dise&ntilde;&eacute; el sistema completo de ligas PvP 5v5: emparejamiento, rankings, divisiones y recompensas. Matchmaking basado en rating con dificultad adaptativa y generaci&oacute;n de bots. Responsable del alcance MVP, estructura UX y balance econ&oacute;mico.</p>
         <div class="project-tags"><span class="tag">PvP Leagues</span><span class="tag">Matchmaking</span><span class="tag">Monetization</span><span class="tag">LiveOps</span></div>
       </a>
       <a href="https://play.google.com/store/apps/details?id=com.nexters.herowars&hl=es" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
         <h3>Hero Wars: Alliance</h3>
         <div class="project-platform">Mobile &middot; Android / iOS</div>
-        <p class="project-desc">Detailed GDD and UX specifications across all core screens. Designed "Heroes of the Week" meta-rotation feature, revenge battles with guild hero borrowing, and dynamic rewards based on power delta.</p>
+        <p class="project-desc" data-i18n="p_hw2">GDD detallado y especificaciones UX de todas las pantallas principales. Dise&ntilde;&eacute; la rotaci&oacute;n &ldquo;H&eacute;roes de la Semana&rdquo;, batallas de revancha con pr&eacute;stamo de h&eacute;roes de gremio y recompensas din&aacute;micas basadas en delta de poder.</p>
         <div class="project-tags"><span class="tag">GDD</span><span class="tag">UX Specs</span><span class="tag">Meta Design</span><span class="tag">Rewards</span></div>
       </a>
     </div>
@@ -326,21 +262,21 @@
         <span class="project-arrow">&#8599;</span>
         <h3>Nitro Nation: Drag Racing</h3>
         <div class="project-platform">Mobile &middot; iOS / Android</div>
-        <p class="project-desc">End-to-end live ops from scratch to release. In-game store design &mdash; offers, gachas, technical assembly. Vehicle setup, car physics, upgrades. PvP with Elo rating and gear score system.</p>
+        <p class="project-desc" data-i18n="p_nn1">Live ops de principio a fin. Dise&ntilde;o de tienda: ofertas, gachas, ensamblaje t&eacute;cnico. Configuraci&oacute;n de veh&iacute;culos, f&iacute;sica de autos y mejoras. PvP con rating Elo y sistema de gear score.</p>
         <div class="project-tags"><span class="tag">LiveOps</span><span class="tag">Store / Gacha</span><span class="tag">PvP / Elo</span><span class="tag">Economy</span></div>
       </a>
       <a href="https://cm.games/games/nitro-nation-world-tour" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
         <h3>Nitro Nation: World Tour</h3>
         <div class="project-platform">Mobile</div>
-        <p class="project-desc">Project economy and tokenomics. Product analytics, hypothesis testing, and accountability for results. Feature owner-generalist across multiple game systems.</p>
+        <p class="project-desc" data-i18n="p_nn2">Econom&iacute;a del proyecto y tokenomics. Anal&iacute;tica de producto, pruebas de hip&oacute;tesis y responsabilidad por resultados. Feature owner generalista en m&uacute;ltiples sistemas.</p>
         <div class="project-tags"><span class="tag">Tokenomics</span><span class="tag">Analytics</span><span class="tag">Product</span></div>
       </a>
       <a href="https://store.steampowered.com/app/1012790/Into_the_Radius_VR/" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
         <h3>Into the Radius</h3>
         <div class="project-platform">PC &middot; VR &middot; Steam</div>
-        <p class="project-desc">Product management and game design contributions to a critically acclaimed VR survival-horror experience set in the Pechorsk Radius anomaly zone.</p>
+        <p class="project-desc" data-i18n="p_itr">Gesti&oacute;n de producto y contribuciones de game design a una experiencia de survival-horror en VR aclamada por la cr&iacute;tica, ambientada en la zona de anomal&iacute;a del Radio Pechorsk.</p>
         <div class="project-tags"><span class="tag">VR</span><span class="tag">Survival</span><span class="tag">Product</span></div>
       </a>
     </div>
@@ -356,14 +292,14 @@
         <span class="project-arrow">&#8599;</span>
         <h3>Last Day on Earth: Survival</h3>
         <div class="project-platform">Mobile &middot; iOS / Android</div>
-        <p class="project-desc">Live ops and in-game store design. Balancing item costs across the full economy. New bosses, locations, events, activities, and mechanics. Level design and location assembly.</p>
+        <p class="project-desc" data-i18n="p_lde">Live ops y dise&ntilde;o de tienda. Balance de costes de &iacute;tems en toda la econom&iacute;a. Nuevos jefes, ubicaciones, eventos, actividades y mec&aacute;nicas. Dise&ntilde;o de niveles y ensamblaje de locaciones.</p>
         <div class="project-tags"><span class="tag">LiveOps</span><span class="tag">Economy</span><span class="tag">Level Design</span><span class="tag">Monetization</span></div>
       </a>
       <a href="https://apps.apple.com/us/app/frostborn-co-op-survival/id1477237220" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
         <h3>Frostborn: Co-op Survival</h3>
         <div class="project-platform">Mobile &middot; iOS / Android</div>
-        <p class="project-desc">Game design contributions to a co-op survival action RPG. Worked with JSON configs, monetization mechanics, and content creation for events and activities.</p>
+        <p class="project-desc" data-i18n="p_fb">Contribuciones de game design a un RPG de acci&oacute;n survival cooperativo. Trabajo con configs JSON, mec&aacute;nicas de monetizaci&oacute;n y creaci&oacute;n de contenido para eventos.</p>
         <div class="project-tags"><span class="tag">Co-op</span><span class="tag">Survival</span><span class="tag">Content Design</span></div>
       </a>
     </div>
@@ -373,33 +309,33 @@
 <!-- SKILLS -->
 <section id="skills">
   <div class="section-header reveal">
-    <div class="section-label">// 02 &mdash; Expertise</div>
-    <h2 class="section-title">Core <span class="accent">Skills</span></h2>
+    <div class="section-label" data-i18n="s2_label">// 02 &mdash; Experiencia</div>
+    <h2 class="section-title" data-i18n="s2_title"><span class="accent">Habilidades</span> principales</h2>
   </div>
   <div class="skills-container">
     <div class="skill-group reveal">
-      <div class="skill-group-title">Game Design</div>
-      <div class="skill-item"><span class="skill-name">Systems Design</span><div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">PvP &amp; Competitive Balance</span><div class="skill-bar"><div class="skill-bar-fill" style="width:93%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Game Economy &amp; Tokenomics</span><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Monetization &amp; F2P</span><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">LiveOps &amp; Events</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Level Design</span><div class="skill-bar"><div class="skill-bar-fill" style="width:82%"></div></div></div>
+      <div class="skill-group-title" data-i18n="sk_gd">Game Design</div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk1">Dise&ntilde;o de Sistemas</span><div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk2">PvP y Balance Competitivo</span><div class="skill-bar"><div class="skill-bar-fill" style="width:93%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk3">Econom&iacute;a de Juego y Tokenomics</span><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk4">Monetizaci&oacute;n y F2P</span><div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk5">LiveOps y Eventos</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk6">Dise&ntilde;o de Niveles</span><div class="skill-bar"><div class="skill-bar-fill" style="width:82%"></div></div></div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-title">Production &amp; Product</div>
-      <div class="skill-item"><span class="skill-name">Team Leadership</span><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Product Management</span><div class="skill-bar"><div class="skill-bar-fill" style="width:87%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">GDD &amp; UX Specifications</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Product Analytics</span><div class="skill-bar"><div class="skill-bar-fill" style="width:83%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">MVP Scoping &amp; Iteration</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+      <div class="skill-group-title" data-i18n="sk_prod">Producci&oacute;n y Producto</div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk7">Liderazgo de Equipo</span><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk8">Gesti&oacute;n de Producto</span><div class="skill-bar"><div class="skill-bar-fill" style="width:87%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk9">GDD y Especificaciones UX</span><div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk10">Anal&iacute;tica de Producto</span><div class="skill-bar"><div class="skill-bar-fill" style="width:83%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk11">MVP Scoping e Iteraci&oacute;n</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-title">Technical</div>
-      <div class="skill-item"><span class="skill-name">JSON / Config Systems</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Matchmaking Algorithms</span><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Mobile Development</span><div class="skill-bar"><div class="skill-bar-fill" style="width:75%"></div></div></div>
-      <div class="skill-item"><span class="skill-name">Web Development</span><div class="skill-bar"><div class="skill-bar-fill" style="width:73%"></div></div></div>
+      <div class="skill-group-title" data-i18n="sk_tech">T&eacute;cnico</div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk12">JSON / Sistemas de Config</span><div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk13">Algoritmos de Matchmaking</span><div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk14">Desarrollo M&oacute;vil</span><div class="skill-bar"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+      <div class="skill-item"><span class="skill-name" data-i18n="sk15">Desarrollo Web</span><div class="skill-bar"><div class="skill-bar-fill" style="width:73%"></div></div></div>
     </div>
   </div>
 </section>
@@ -407,22 +343,22 @@
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header reveal">
-    <div class="section-label">// 03 &mdash; Career Path</div>
-    <h2 class="section-title">Work <span class="accent">Experience</span></h2>
+    <div class="section-label" data-i18n="s3_label">// 03 &mdash; Trayectoria</div>
+    <h2 class="section-title" data-i18n="s3_title"><span class="accent">Experiencia</span> laboral</h2>
   </div>
   <div class="timeline">
     <div class="timeline-item reveal">
-      <div class="timeline-date">Sep 2024 &mdash; Present</div>
+      <div class="timeline-date" data-i18n="t1_date">Sep 2024 &mdash; Presente</div>
       <div class="timeline-role">Senior Game Designer</div>
       <div class="timeline-company">Nexters ($GDEV)</div>
       <div class="timeline-location">Cyprus</div>
       <ul class="timeline-highlights">
-        <li>Designed full PvP 5v5 league system: matchmaking, rankings, rewards, and divisions</li>
-        <li>Built rating-based matchmaking with power dispersion and adaptive difficulty</li>
-        <li>Developed scalable bot generation logic tailored to player strength and league</li>
-        <li>Designed monetization: tiered league offers, dynamic attempt costs</li>
-        <li>&ldquo;Heroes of the Week&rdquo; feature to influence meta and encourage variation</li>
-        <li>Owned MVP scoping, iteration planning, and economy balancing with live config sheets</li>
+        <li data-i18n="t1_h1">Dise&ntilde;&eacute; el sistema completo de ligas PvP 5v5: emparejamiento, rankings, recompensas y divisiones</li>
+        <li data-i18n="t1_h2">Matchmaking basado en rating con dispersi&oacute;n de poder y dificultad adaptativa</li>
+        <li data-i18n="t1_h3">L&oacute;gica escalable de generaci&oacute;n de bots adaptada a la fuerza y liga del jugador</li>
+        <li data-i18n="t1_h4">Monetizaci&oacute;n: ofertas escalonadas por liga, costes din&aacute;micos de intentos</li>
+        <li data-i18n="t1_h5">&ldquo;H&eacute;roes de la Semana&rdquo; para influir en el meta y fomentar la variaci&oacute;n</li>
+        <li data-i18n="t1_h6">Responsable del alcance MVP, planificaci&oacute;n de iteraciones y balance econ&oacute;mico con hojas de config en vivo</li>
       </ul>
     </div>
     <div class="timeline-item reveal">
@@ -431,11 +367,11 @@
       <div class="timeline-company">CM Games</div>
       <div class="timeline-location">Tallinn, Estonia</div>
       <ul class="timeline-highlights">
-        <li>End-to-end live ops from scratch to release, planning, and support</li>
-        <li>In-game store: offers, gachas, technical assembly, interfaces</li>
-        <li>Project economy and tokenomics</li>
-        <li>PvP with Elo rating and gear score systems</li>
-        <li>Product analytics, hypotheses, solutions, accountability for results</li>
+        <li data-i18n="t2_h1">Live ops de principio a fin: planificaci&oacute;n, lanzamiento y soporte</li>
+        <li data-i18n="t2_h2">Tienda in-game: ofertas, gachas, ensamblaje t&eacute;cnico, interfaces</li>
+        <li data-i18n="t2_h3">Econom&iacute;a del proyecto y tokenomics</li>
+        <li data-i18n="t2_h4">PvP con rating Elo y sistemas de gear score</li>
+        <li data-i18n="t2_h5">Anal&iacute;tica de producto, hip&oacute;tesis, soluciones, responsabilidad por resultados</li>
       </ul>
     </div>
     <div class="timeline-item reveal">
@@ -444,10 +380,10 @@
       <div class="timeline-company">LLC SIRIDAR</div>
       <div class="timeline-location">Vietnam</div>
       <ul class="timeline-highlights">
-        <li>Development of a midcore MMORPG Survival concept from scratch</li>
-        <li>Defined core mechanics, plot, genre, and overall game direction</li>
-        <li>Full project lifecycle management from concept to release</li>
-        <li>Budget control, team coordination, and client communication</li>
+        <li data-i18n="t3_h1">Desarrollo del concepto de un proyecto MMORPG Survival midcore desde cero</li>
+        <li data-i18n="t3_h2">Definici&oacute;n de mec&aacute;nicas b&aacute;sicas, trama, g&eacute;nero y direcci&oacute;n general</li>
+        <li data-i18n="t3_h3">Gesti&oacute;n completa del ciclo de vida del proyecto</li>
+        <li data-i18n="t3_h4">Control presupuestario, coordinaci&oacute;n de equipo y comunicaci&oacute;n con clientes</li>
       </ul>
     </div>
     <div class="timeline-item reveal">
@@ -456,9 +392,9 @@
       <div class="timeline-company">Fmedia Group</div>
       <div class="timeline-location">Edinburgh, Scotland, UK</div>
       <ul class="timeline-highlights">
-        <li>Competitor analysis in casual games and hidden object niche</li>
-        <li>Project support from scratch to release</li>
-        <li>Led a team of 5 people</li>
+        <li data-i18n="t4_h1">An&aacute;lisis de competencia en juegos casuales y hidden object</li>
+        <li data-i18n="t4_h2">Soporte del proyecto desde cero hasta el lanzamiento</li>
+        <li data-i18n="t4_h3">Direcci&oacute;n de un equipo de 5 personas</li>
       </ul>
     </div>
     <div class="timeline-item reveal">
@@ -467,10 +403,10 @@
       <div class="timeline-company">Kefir Games</div>
       <div class="timeline-location">Cyprus</div>
       <ul class="timeline-highlights">
-        <li>Live ops and in-game store design</li>
-        <li>Balancing and calculating item costs across the economy</li>
-        <li>Level design, location assembly, new bosses, events, and mechanics</li>
-        <li>Working with monetization and JSON configs</li>
+        <li data-i18n="t5_h1">Live ops y dise&ntilde;o de tienda in-game</li>
+        <li data-i18n="t5_h2">Balance y c&aacute;lculo de costes de &iacute;tems en toda la econom&iacute;a</li>
+        <li data-i18n="t5_h3">Dise&ntilde;o de niveles, ensamblaje de locaciones, nuevos jefes, eventos y mec&aacute;nicas</li>
+        <li data-i18n="t5_h4">Trabajo con monetizaci&oacute;n y configs JSON</li>
       </ul>
     </div>
   </div>
@@ -479,24 +415,24 @@
 <!-- EDUCATION -->
 <section id="education">
   <div class="section-header reveal">
-    <div class="section-label">// 04 &mdash; Education</div>
-    <h2 class="section-title">Academic <span class="accent">Background</span></h2>
+    <div class="section-label" data-i18n="s4_label">// 04 &mdash; Formaci&oacute;n</div>
+    <h2 class="section-title" data-i18n="s4_title"><span class="accent">Formaci&oacute;n</span> acad&eacute;mica</h2>
   </div>
   <div class="education-grid">
     <div class="edu-card reveal">
       <div class="edu-years">2020 &mdash; 2025</div>
-      <div class="edu-degree">Bachelor&rsquo;s &mdash; Computer Science &amp; Engineering</div>
-      <div class="edu-school">Peter the Great St. Petersburg Polytechnic University</div>
+      <div class="edu-degree" data-i18n="ed1_deg">Grado &mdash; Inform&aacute;tica e Ingenier&iacute;a</div>
+      <div class="edu-school" data-i18n="ed1_sch">Universidad Polit&eacute;cnica Pedro el Grande de San Petersburgo</div>
     </div>
     <div class="edu-card reveal">
       <div class="edu-years">2016 &mdash; 2020</div>
-      <div class="edu-degree">Secondary Professional &mdash; Computer Programming</div>
-      <div class="edu-school">Peter the Great St. Petersburg Polytechnic University</div>
+      <div class="edu-degree" data-i18n="ed2_deg">Formaci&oacute;n Profesional &mdash; Programaci&oacute;n</div>
+      <div class="edu-school" data-i18n="ed2_sch">Universidad Polit&eacute;cnica Pedro el Grande de San Petersburgo</div>
     </div>
     <div class="edu-card reveal">
       <div class="edu-years">2010 &mdash; 2012</div>
-      <div class="edu-degree">Information Technology</div>
-      <div class="edu-school">ITMO University</div>
+      <div class="edu-degree" data-i18n="ed3_deg">Tecnolog&iacute;a de la Informaci&oacute;n</div>
+      <div class="edu-school" data-i18n="ed3_sch">Universidad ITMO</div>
     </div>
   </div>
 </section>
@@ -504,18 +440,18 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
-    <div class="section-label">// 05 &mdash; Get in Touch</div>
-    <h2 class="section-title">Let&rsquo;s <span class="accent">Connect</span></h2>
+    <div class="section-label" data-i18n="s5_label">// 05 &mdash; Contacto</div>
+    <h2 class="section-title" data-i18n="s5_title"><span class="accent">Contacto</span></h2>
   </div>
   <div class="contact-text reveal">
-    <p>Open to freelance projects, consulting, and full-time opportunities in game design, systems design, and product management. Based in Spain, working with teams globally.</p>
+    <p data-i18n="contact_desc">Abierto a proyectos freelance, consultor&iacute;a y oportunidades a tiempo completo en game design, dise&ntilde;o de sistemas y gesti&oacute;n de producto. Resido en Espa&ntilde;a, trabajo con equipos de todo el mundo.</p>
     <div class="contact-links">
       <a href="mailto:tikhonoff93@gmail.com" class="contact-link">
         <span class="contact-link-icon">Email</span>
         <span class="contact-link-value">tikhonoff93@gmail.com</span>
       </a>
       <a href="tel:+34651421726" class="contact-link">
-        <span class="contact-link-icon">Phone</span>
+        <span class="contact-link-icon" data-i18n="cl_phone">Tel&eacute;fono</span>
         <span class="contact-link-value">+34 651 421 726</span>
       </a>
       <a href="https://www.linkedin.com/in/konstantin-t-50157b149/" target="_blank" class="contact-link">
@@ -531,151 +467,268 @@
 </section>
 
 <footer>
-  <p>&copy; 2020 Konstantin Tikhonov. All rights reserved.</p>
+  <p>&copy; 2020 Konstantin Tikhonov. <span data-i18n="footer">Todos los derechos reservados.</span></p>
 </footer>
 
 <script>
-  // ── SKILL SPHERE ──
-  (function() {
-    var skills = [
-      'Systems Design', 'PvP Balance', 'Game Economy', 'Monetization',
-      'LiveOps', 'F2P', 'Matchmaking', 'Level Design',
-      'Team Lead', 'Product', 'GDD', 'UX',
-      'Analytics', 'Elo Rating', 'Tokenomics', 'JSON',
-      'MVP', 'Gacha', 'Events', 'Battle Pass',
-      'Mobile', 'VR', 'Co-op', 'Survival'
-    ];
+// ── TRANSLATIONS ──
+var T = {
+  es: {
+    nav_projects: "Proyectos", nav_skills: "Habilidades", nav_exp: "Experiencia", nav_edu: "Formación", nav_contact: "Contacto",
+    hero_tag: "// Creador de Juegos · Arquitecto de Sistemas · Estratega de Economía",
+    hero_desc: "Diseño de sistemas PvP, economías de juego y monetización que impulsan el engagement y los ingresos. Más de 7 años lanzando títulos F2P en móvil, PC y VR.",
+    stat_years: "Años de experiencia", stat_studios: "Estudios", stat_titles: "Títulos lanzados",
+    s1_label: "// 01 — Portafolio", s1_title: '<span class="accent">Proyectos</span> destacados',
+    p_hw1: "Diseñé el sistema completo de ligas PvP 5v5: emparejamiento, rankings, divisiones y recompensas. Matchmaking basado en rating con dificultad adaptativa y generación de bots. Responsable del alcance MVP, estructura UX y balance económico.",
+    p_hw2: 'GDD detallado y especificaciones UX de todas las pantallas principales. Diseñé la rotación "Héroes de la Semana", batallas de revancha con préstamo de héroes de gremio y recompensas dinámicas basadas en delta de poder.',
+    p_nn1: "Live ops de principio a fin. Diseño de tienda: ofertas, gachas, ensamblaje técnico. Configuración de vehículos, física de autos y mejoras. PvP con rating Elo y sistema de gear score.",
+    p_nn2: "Economía del proyecto y tokenomics. Analítica de producto, pruebas de hipótesis y responsabilidad por resultados. Feature owner generalista en múltiples sistemas.",
+    p_itr: "Gestión de producto y contribuciones de game design a una experiencia de survival-horror en VR aclamada por la crítica, ambientada en la zona de anomalía del Radio Pechorsk.",
+    p_lde: "Live ops y diseño de tienda. Balance de costes de ítems en toda la economía. Nuevos jefes, ubicaciones, eventos, actividades y mecánicas. Diseño de niveles y ensamblaje de locaciones.",
+    p_fb: "Contribuciones de game design a un RPG de acción survival cooperativo. Trabajo con configs JSON, mecánicas de monetización y creación de contenido para eventos.",
+    s2_label: "// 02 — Experiencia", s2_title: '<span class="accent">Habilidades</span> principales',
+    sk_gd: "Game Design", sk_prod: "Producción y Producto", sk_tech: "Técnico",
+    sk1: "Diseño de Sistemas", sk2: "PvP y Balance Competitivo", sk3: "Economía de Juego y Tokenomics",
+    sk4: "Monetización y F2P", sk5: "LiveOps y Eventos", sk6: "Diseño de Niveles",
+    sk7: "Liderazgo de Equipo", sk8: "Gestión de Producto", sk9: "GDD y Especificaciones UX",
+    sk10: "Analítica de Producto", sk11: "MVP Scoping e Iteración",
+    sk12: "JSON / Sistemas de Config", sk13: "Algoritmos de Matchmaking", sk14: "Desarrollo Móvil", sk15: "Desarrollo Web",
+    s3_label: "// 03 — Trayectoria", s3_title: '<span class="accent">Experiencia</span> laboral',
+    t1_date: "Sep 2024 — Presente",
+    t1_h1: "Diseñé el sistema completo de ligas PvP 5v5: emparejamiento, rankings, recompensas y divisiones",
+    t1_h2: "Matchmaking basado en rating con dispersión de poder y dificultad adaptativa",
+    t1_h3: "Lógica escalable de generación de bots adaptada a la fuerza y liga del jugador",
+    t1_h4: "Monetización: ofertas escalonadas por liga, costes dinámicos de intentos",
+    t1_h5: '"Héroes de la Semana" para influir en el meta y fomentar la variación',
+    t1_h6: "Responsable del alcance MVP, planificación de iteraciones y balance económico con hojas de config en vivo",
+    t2_h1: "Live ops de principio a fin: planificación, lanzamiento y soporte",
+    t2_h2: "Tienda in-game: ofertas, gachas, ensamblaje técnico, interfaces",
+    t2_h3: "Economía del proyecto y tokenomics",
+    t2_h4: "PvP con rating Elo y sistemas de gear score",
+    t2_h5: "Analítica de producto, hipótesis, soluciones, responsabilidad por resultados",
+    t3_h1: "Desarrollo del concepto de un proyecto MMORPG Survival midcore desde cero",
+    t3_h2: "Definición de mecánicas básicas, trama, género y dirección general",
+    t3_h3: "Gestión completa del ciclo de vida del proyecto",
+    t3_h4: "Control presupuestario, coordinación de equipo y comunicación con clientes",
+    t4_h1: "Análisis de competencia en juegos casuales y hidden object",
+    t4_h2: "Soporte del proyecto desde cero hasta el lanzamiento",
+    t4_h3: "Dirección de un equipo de 5 personas",
+    t5_h1: "Live ops y diseño de tienda in-game",
+    t5_h2: "Balance y cálculo de costes de ítems en toda la economía",
+    t5_h3: "Diseño de niveles, ensamblaje de locaciones, nuevos jefes, eventos y mecánicas",
+    t5_h4: "Trabajo con monetización y configs JSON",
+    s4_label: "// 04 — Formación", s4_title: '<span class="accent">Formación</span> académica',
+    ed1_deg: "Grado — Informática e Ingeniería", ed1_sch: "Universidad Politécnica Pedro el Grande de San Petersburgo",
+    ed2_deg: "Formación Profesional — Programación", ed2_sch: "Universidad Politécnica Pedro el Grande de San Petersburgo",
+    ed3_deg: "Tecnología de la Información", ed3_sch: "Universidad ITMO",
+    s5_label: "// 05 — Contacto", s5_title: '<span class="accent">Contacto</span>',
+    contact_desc: "Abierto a proyectos freelance, consultoría y oportunidades a tiempo completo en game design, diseño de sistemas y gestión de producto. Resido en España, trabajo con equipos de todo el mundo.",
+    cl_phone: "Teléfono",
+    footer: "Todos los derechos reservados."
+  },
+  en: {
+    nav_projects: "Projects", nav_skills: "Skills", nav_exp: "Experience", nav_edu: "Education", nav_contact: "Contact",
+    hero_tag: "// Game Creator · Systems Architect · Economy Strategist",
+    hero_desc: "Designing PvP systems, game economies, and monetization that drive engagement and revenue. 7+ years shipping F2P titles across mobile, PC, and VR — from concept to live ops.",
+    stat_years: "Years Experience", stat_studios: "Studios", stat_titles: "Shipped Titles",
+    s1_label: "// 01 — Portfolio", s1_title: 'Featured <span class="accent">Projects</span>',
+    p_hw1: "Designed full PvP 5v5 league system — matchmaking, rankings, divisions, rewards. Built rating-based matchmaking with adaptive difficulty and bot generation. Owned MVP scoping, UX structure, and economy balancing.",
+    p_hw2: 'Detailed GDD and UX specifications across all core screens. Designed "Heroes of the Week" meta-rotation feature, revenge battles with guild hero borrowing, and dynamic rewards based on power delta.',
+    p_nn1: "End-to-end live ops from scratch to release. In-game store design — offers, gachas, technical assembly. Vehicle setup, car physics, upgrades. PvP with Elo rating and gear score system.",
+    p_nn2: "Project economy and tokenomics. Product analytics, hypothesis testing, and accountability for results. Feature owner-generalist across multiple game systems.",
+    p_itr: "Product management and game design contributions to a critically acclaimed VR survival-horror experience set in the Pechorsk Radius anomaly zone.",
+    p_lde: "Live ops and in-game store design. Balancing item costs across the full economy. New bosses, locations, events, activities, and mechanics. Level design and location assembly.",
+    p_fb: "Game design contributions to a co-op survival action RPG. Worked with JSON configs, monetization mechanics, and content creation for events and activities.",
+    s2_label: "// 02 — Expertise", s2_title: 'Core <span class="accent">Skills</span>',
+    sk_gd: "Game Design", sk_prod: "Production & Product", sk_tech: "Technical",
+    sk1: "Systems Design", sk2: "PvP & Competitive Balance", sk3: "Game Economy & Tokenomics",
+    sk4: "Monetization & F2P", sk5: "LiveOps & Events", sk6: "Level Design",
+    sk7: "Team Leadership", sk8: "Product Management", sk9: "GDD & UX Specifications",
+    sk10: "Product Analytics", sk11: "MVP Scoping & Iteration",
+    sk12: "JSON / Config Systems", sk13: "Matchmaking Algorithms", sk14: "Mobile Development", sk15: "Web Development",
+    s3_label: "// 03 — Career Path", s3_title: 'Work <span class="accent">Experience</span>',
+    t1_date: "Sep 2024 — Present",
+    t1_h1: "Designed full PvP 5v5 league system: matchmaking, rankings, rewards, and divisions",
+    t1_h2: "Built rating-based matchmaking with power dispersion and adaptive difficulty",
+    t1_h3: "Developed scalable bot generation logic tailored to player strength and league",
+    t1_h4: "Designed monetization: tiered league offers, dynamic attempt costs",
+    t1_h5: '"Heroes of the Week" feature to influence meta and encourage variation',
+    t1_h6: "Owned MVP scoping, iteration planning, and economy balancing with live config sheets",
+    t2_h1: "End-to-end live ops from scratch to release, planning, and support",
+    t2_h2: "In-game store: offers, gachas, technical assembly, interfaces",
+    t2_h3: "Project economy and tokenomics",
+    t2_h4: "PvP with Elo rating and gear score systems",
+    t2_h5: "Product analytics, hypotheses, solutions, accountability for results",
+    t3_h1: "Development of a midcore MMORPG Survival concept from scratch",
+    t3_h2: "Defined core mechanics, plot, genre, and overall game direction",
+    t3_h3: "Full project lifecycle management from concept to release",
+    t3_h4: "Budget control, team coordination, and client communication",
+    t4_h1: "Competitor analysis in casual games and hidden object niche",
+    t4_h2: "Project support from scratch to release",
+    t4_h3: "Led a team of 5 people",
+    t5_h1: "Live ops and in-game store design",
+    t5_h2: "Balancing and calculating item costs across the economy",
+    t5_h3: "Level design, location assembly, new bosses, events, and mechanics",
+    t5_h4: "Working with monetization and JSON configs",
+    s4_label: "// 04 — Education", s4_title: 'Academic <span class="accent">Background</span>',
+    ed1_deg: "Bachelor's — Computer Science & Engineering", ed1_sch: "Peter the Great St. Petersburg Polytechnic University",
+    ed2_deg: "Secondary Professional — Computer Programming", ed2_sch: "Peter the Great St. Petersburg Polytechnic University",
+    ed3_deg: "Information Technology", ed3_sch: "ITMO University",
+    s5_label: "// 05 — Get in Touch", s5_title: 'Let\'s <span class="accent">Connect</span>',
+    contact_desc: "Open to freelance projects, consulting, and full-time opportunities in game design, systems design, and product management. Based in Spain, working with teams globally.",
+    cl_phone: "Phone",
+    footer: "All rights reserved."
+  },
+  ru: {
+    nav_projects: "Проекты", nav_skills: "Навыки", nav_exp: "Опыт", nav_edu: "Образование", nav_contact: "Контакты",
+    hero_tag: "// Создатель Игр · Архитектор Систем · Стратег Экономики",
+    hero_desc: "Проектирование PvP-систем, игровых экономик и монетизации, которые повышают вовлечённость и доход. Более 7 лет выпуска F2P-тайтлов на мобильных, ПК и VR.",
+    stat_years: "Лет опыта", stat_studios: "Студий", stat_titles: "Выпущенных тайтлов",
+    s1_label: "// 01 — Портфолио", s1_title: 'Избранные <span class="accent">проекты</span>',
+    p_hw1: "Спроектировал полную систему PvP-лиг 5v5: матчмейкинг, рейтинги, дивизионы, награды. Рейтинговый матчмейкинг с адаптивной сложностью и генерацией ботов. Отвечал за MVP, UX-структуру и баланс экономики.",
+    p_hw2: 'Детальный GDD и UX-спецификации всех основных экранов. Спроектировал ротацию «Герои Недели», реванш-бои с заимствованием героев гильдии и динамические награды на основе дельты силы.',
+    p_nn1: "Live ops от и до: от разработки до релиза. Дизайн магазина — офферы, гачи, техническая сборка. Настройка автомобилей, физика, апгрейды. PvP с рейтингом Elo и gear score.",
+    p_nn2: "Экономика проекта и токеномика. Продуктовая аналитика, тестирование гипотез и ответственность за результаты. Feature owner-генералист.",
+    p_itr: "Продуктовое управление и вклад в геймдизайн VR survival-horror проекта, получившего высокую оценку критиков.",
+    p_lde: "Live ops и дизайн магазина. Балансировка стоимости предметов по всей экономике. Новые боссы, локации, события, активности и механики. Левел-дизайн.",
+    p_fb: "Вклад в геймдизайн кооперативного survival action RPG. Работа с JSON-конфигами, механиками монетизации и созданием контента для событий.",
+    s2_label: "// 02 — Экспертиза", s2_title: 'Ключевые <span class="accent">навыки</span>',
+    sk_gd: "Геймдизайн", sk_prod: "Продакшн и Продукт", sk_tech: "Техническое",
+    sk1: "Системный дизайн", sk2: "PvP и конкурентный баланс", sk3: "Игровая экономика и токеномика",
+    sk4: "Монетизация и F2P", sk5: "LiveOps и события", sk6: "Левел-дизайн",
+    sk7: "Лидерство команды", sk8: "Управление продуктом", sk9: "GDD и UX-спецификации",
+    sk10: "Продуктовая аналитика", sk11: "MVP Scoping и итерации",
+    sk12: "JSON / Конфигурации", sk13: "Алгоритмы матчмейкинга", sk14: "Мобильная разработка", sk15: "Веб-разработка",
+    s3_label: "// 03 — Карьера", s3_title: 'Опыт <span class="accent">работы</span>',
+    t1_date: "Сен 2024 — Настоящее время",
+    t1_h1: "Спроектировал полную систему PvP-лиг 5v5: матчмейкинг, рейтинги, награды и дивизионы",
+    t1_h2: "Рейтинговый матчмейкинг с дисперсией силы и адаптивной сложностью",
+    t1_h3: "Масштабируемая логика генерации ботов, адаптированная под силу и лигу игрока",
+    t1_h4: "Монетизация: ступенчатые офферы по лигам, динамическая стоимость попыток",
+    t1_h5: '«Герои Недели» для влияния на мету и поощрения разнообразия',
+    t1_h6: "MVP scoping, планирование итераций и баланс экономики с live-конфигами",
+    t2_h1: "Live ops полного цикла: планирование, запуск и поддержка",
+    t2_h2: "Внутриигровой магазин: офферы, гачи, техническая сборка, интерфейсы",
+    t2_h3: "Экономика проекта и токеномика",
+    t2_h4: "PvP с рейтингом Elo и системами gear score",
+    t2_h5: "Продуктовая аналитика, гипотезы, решения, ответственность за результат",
+    t3_h1: "Разработка концепции мидкорного MMORPG Survival проекта с нуля",
+    t3_h2: "Определение базовых механик, сюжета, жанра и общего направления",
+    t3_h3: "Полное управление жизненным циклом проекта",
+    t3_h4: "Контроль бюджета, координация команды и коммуникация с клиентами",
+    t4_h1: "Анализ конкурентов в нише казуальных игр и hidden object",
+    t4_h2: "Поддержка проекта от нуля до релиза",
+    t4_h3: "Руководство командой из 5 человек",
+    t5_h1: "Live ops и дизайн внутриигрового магазина",
+    t5_h2: "Балансировка и расчёт стоимости предметов по всей экономике",
+    t5_h3: "Левел-дизайн, сборка локаций, новые боссы, события и механики",
+    t5_h4: "Работа с монетизацией и JSON-конфигами",
+    s4_label: "// 04 — Образование", s4_title: '<span class="accent">Образование</span>',
+    ed1_deg: "Бакалавриат — Информатика и инженерия", ed1_sch: "Санкт-Петербургский политехнический университет Петра Великого",
+    ed2_deg: "СПО — Программирование", ed2_sch: "Санкт-Петербургский политехнический университет Петра Великого",
+    ed3_deg: "Информационные технологии", ed3_sch: "Университет ИТМО",
+    s5_label: "// 05 — Связаться", s5_title: '<span class="accent">Контакты</span>',
+    contact_desc: "Открыт для фриланс-проектов, консалтинга и постоянных позиций в геймдизайне, системном дизайне и управлении продуктом. Живу в Испании, работаю с командами по всему миру.",
+    cl_phone: "Телефон",
+    footer: "Все права защищены."
+  }
+};
 
-    var container = document.getElementById('skillSphere');
-    if (!container) return;
+var currentLang = 'es';
 
-    var radius = Math.min(container.offsetWidth, container.offsetHeight) * 0.4;
-    var words = [];
-    var total = skills.length;
-
-    // Distribute points on sphere using golden spiral
-    for (var i = 0; i < total; i++) {
-      var phi = Math.acos(1 - 2 * (i + 0.5) / total);
-      var theta = Math.PI * (1 + Math.sqrt(5)) * i;
-
-      var span = document.createElement('span');
-      span.className = 'skill-word';
-      span.textContent = skills[i];
-
-      // Size variation based on importance
-      var size = i < 6 ? 0.85 : (i < 14 ? 0.7 : 0.58);
-      span.style.fontSize = size + 'rem';
-
-      container.appendChild(span);
-      words.push({
-        el: span,
-        phi: phi,
-        theta: theta
-      });
-    }
-
-    var angleX = 0;
-    var angleY = 0;
-    var autoSpeed = 0.003;
-    var mouseX = 0;
-    var mouseY = 0;
-    var isHovering = false;
-
-    container.addEventListener('mousemove', function(e) {
-      var rect = container.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
-      mouseY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-      isHovering = true;
-    });
-
-    container.addEventListener('mouseleave', function() {
-      isHovering = false;
-    });
-
-    function animate() {
-      if (isHovering) {
-        angleY += mouseX * 0.012;
-        angleX += mouseY * 0.012;
-      } else {
-        angleY += autoSpeed;
-        angleX += autoSpeed * 0.3;
-      }
-
-      for (var i = 0; i < words.length; i++) {
-        var w = words[i];
-
-        // Spherical to cartesian
-        var x = radius * Math.sin(w.phi) * Math.cos(w.theta + angleY);
-        var y = radius * Math.cos(w.phi + angleX * 0.5);
-        var z = radius * Math.sin(w.phi) * Math.sin(w.theta + angleY);
-
-        // Rotate around X axis
-        var cosX = Math.cos(angleX * 0.3);
-        var sinX = Math.sin(angleX * 0.3);
-        var y2 = y * cosX - z * sinX;
-        var z2 = y * sinX + z * cosX;
-
-        // Depth-based styling
-        var depth = (z2 + radius) / (2 * radius); // 0 (back) to 1 (front)
-        var opacity = 0.15 + depth * 0.85;
-        var scale = 0.6 + depth * 0.4;
-
-        // Color interpolation: back = dim, front = cyan/magenta
-        var r, g, b;
-        if (depth > 0.6) {
-          // Front words: cyan to magenta gradient based on position
-          var t = (i % 3) / 2;
-          r = Math.round(0 + t * 255);
-          g = Math.round(240 - t * 240);
-          b = Math.round(255 - t * 85);
-        } else {
-          r = 85; g = 85; b = 112;
-        }
-
-        w.el.style.transform = 'translate(-50%, -50%) translate3d(' + x.toFixed(1) + 'px,' + y2.toFixed(1) + 'px,' + z2.toFixed(1) + 'px) scale(' + scale.toFixed(2) + ')';
-        w.el.style.opacity = opacity.toFixed(2);
-        w.el.style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
-        w.el.style.zIndex = Math.round(depth * 100);
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  })();
-  // Reveal on scroll with fallback
-  document.addEventListener('DOMContentLoaded', function() {
-    var reveals = document.querySelectorAll('.reveal');
-
-    // Fallback: if IntersectionObserver not supported or fails, show everything
-    if (!('IntersectionObserver' in window)) {
-      reveals.forEach(function(el) { el.classList.add('visible'); });
-      return;
-    }
-
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0, rootMargin: '0px 0px 50px 0px' });
-
-    reveals.forEach(function(el) { observer.observe(el); });
-
-    // Safety net: show all after 3 seconds regardless
-    setTimeout(function() {
-      reveals.forEach(function(el) { el.classList.add('visible'); });
-    }, 3000);
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
   });
-
-  var sections = document.querySelectorAll('section[id]');
-  var navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', function() {
-    var current = '';    sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
-    navLinks.forEach(function(a) { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent-cyan)' : ''; });
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (T[lang] && T[lang][key] !== undefined) {
+      el.innerHTML = T[lang][key];
+    }
   });
+}
+
+// ── SKILL SPHERE ──
+(function() {
+  var skills = [
+    'Systems Design', 'PvP Balance', 'Game Economy', 'Monetization',
+    'LiveOps', 'F2P', 'Matchmaking', 'Level Design',
+    'Team Lead', 'Product', 'GDD', 'UX',
+    'Analytics', 'Elo Rating', 'Tokenomics', 'JSON',
+    'MVP', 'Gacha', 'Events', 'Battle Pass',
+    'Mobile', 'VR', 'Co-op', 'Survival'
+  ];
+  var container = document.getElementById('skillSphere');
+  if (!container) return;
+  var radius = Math.min(container.offsetWidth, container.offsetHeight) * 0.4;
+  var words = [];
+  var total = skills.length;
+  for (var i = 0; i < total; i++) {
+    var phi = Math.acos(1 - 2 * (i + 0.5) / total);
+    var theta = Math.PI * (1 + Math.sqrt(5)) * i;
+    var span = document.createElement('span');
+    span.className = 'skill-word';
+    span.textContent = skills[i];
+    var size = i < 6 ? 1.3 : (i < 14 ? 1.05 : 0.85);
+    span.style.fontSize = size + 'rem';
+    container.appendChild(span);
+    words.push({ el: span, phi: phi, theta: theta });
+  }
+  var angleX = 0, angleY = 0, autoSpeed = 0.003, mouseX = 0, mouseY = 0, isHovering = false;
+  container.addEventListener('mousemove', function(e) {
+    var rect = container.getBoundingClientRect();
+    mouseX = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+    mouseY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+    isHovering = true;
+  });
+  container.addEventListener('mouseleave', function() { isHovering = false; });
+  function animate() {
+    if (isHovering) { angleY += mouseX * 0.012; angleX += mouseY * 0.012; }
+    else { angleY += autoSpeed; angleX += autoSpeed * 0.3; }
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      var x = radius * Math.sin(w.phi) * Math.cos(w.theta + angleY);
+      var y = radius * Math.cos(w.phi + angleX * 0.5);
+      var z = radius * Math.sin(w.phi) * Math.sin(w.theta + angleY);
+      var cosX = Math.cos(angleX * 0.3), sinX = Math.sin(angleX * 0.3);
+      var y2 = y * cosX - z * sinX, z2 = y * sinX + z * cosX;
+      var depth = (z2 + radius) / (2 * radius);
+      var opacity = 0.15 + depth * 0.85;
+      var scale = 0.6 + depth * 0.4;
+      var r, g, b;
+      if (depth > 0.6) { var t = (i % 3) / 2; r = Math.round(t * 255); g = Math.round(240 - t * 240); b = Math.round(255 - t * 85); }
+      else { r = 85; g = 85; b = 112; }
+      w.el.style.transform = 'translate(-50%,-50%) translate3d(' + x.toFixed(1) + 'px,' + y2.toFixed(1) + 'px,' + z2.toFixed(1) + 'px) scale(' + scale.toFixed(2) + ')';
+      w.el.style.opacity = opacity.toFixed(2);
+      w.el.style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
+      w.el.style.zIndex = Math.round(depth * 100);
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ── REVEAL ON SCROLL ──
+document.addEventListener('DOMContentLoaded', function() {
+  var reveals = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { reveals.forEach(function(el) { el.classList.add('visible'); }); return; }
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+  }, { threshold: 0, rootMargin: '0px 0px 50px 0px' });
+  reveals.forEach(function(el) { observer.observe(el); });
+  setTimeout(function() { reveals.forEach(function(el) { el.classList.add('visible'); }); }, 3000);
+});
+
+// ── NAV HIGHLIGHT ──
+var sections = document.querySelectorAll('section[id]');
+var navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', function() {
+  var current = '';
+  sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+  navLinks.forEach(function(a) { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent-cyan)' : ''; });
+});
 </script>
 </body>
 </html>
