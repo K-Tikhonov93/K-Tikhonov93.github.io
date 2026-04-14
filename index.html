@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Konstantin Tikhonov — Senior Game Designer</title>
+<meta name="description" content="Senior Game Designer with 7+ years of experience in systems design, PvP balance, game economy, and monetization. Portfolio of shipped F2P titles.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Konstantin Tikhonov — Senior Game Designer">
+<meta property="og:description" content="Systems Design · PvP Balance · Game Economy · Monetization. 7+ years shipping F2P titles across mobile, PC, and VR.">
+<meta property="og:image" content="https://k-tikhonov93.github.io/KT-Design.github.io/og-image.png">
+<meta property="og:url" content="https://k-tikhonov93.github.io/KT-Design.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Konstantin Tikhonov — Senior Game Designer">
+<meta name="twitter:description" content="Systems Design · PvP Balance · Game Economy · Monetization. 7+ years shipping F2P titles.">
+<meta name="twitter:image" content="https://k-tikhonov93.github.io/KT-Design.github.io/og-image.png">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -142,6 +152,23 @@
   footer { padding: 3rem 4rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 1; max-width: 1280px; margin-left: auto; margin-right: auto; }
   footer p { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); letter-spacing: 2px; }
 
+  /* SCROLL TO TOP */
+  .scroll-top {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 99;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--accent-cyan); font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    backdrop-filter: blur(10px);
+  }
+  .scroll-top.visible { opacity: 1; visibility: visible; }
+  .scroll-top:hover {
+    border-color: var(--accent-cyan); background: var(--bg-card-hover);
+    box-shadow: var(--glow-cyan); transform: translateY(-4px);
+  }
+
   /* ORBS */
   .orb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
   .orb-1 { width: 500px; height: 500px; background: rgba(0,240,255,0.06); top: -100px; right: -100px; animation: float 12s ease-in-out infinite; }
@@ -208,9 +235,9 @@
     <h1>KONSTANTIN<br><span class="accent">TIKHONOV</span></h1>
     <p class="hero-desc" data-i18n="hero_desc">Dise&ntilde;o de sistemas PvP, econom&iacute;as de juego y monetizaci&oacute;n que impulsan el engagement y los ingresos. M&aacute;s de 7 a&ntilde;os lanzando t&iacute;tulos F2P en m&oacute;vil, PC y VR.</p>
     <div class="hero-stats">
-      <div class="stat"><div class="stat-number">7+</div><div class="stat-label" data-i18n="stat_years">A&ntilde;os de experiencia</div></div>
-      <div class="stat"><div class="stat-number">5</div><div class="stat-label" data-i18n="stat_studios">Estudios</div></div>
-      <div class="stat"><div class="stat-number">6+</div><div class="stat-label" data-i18n="stat_titles">T&iacute;tulos lanzados</div></div>
+      <div class="stat"><div class="stat-number" data-count="7" data-suffix="+">0</div><div class="stat-label" data-i18n="stat_years">A&ntilde;os de experiencia</div></div>
+      <div class="stat"><div class="stat-number" data-count="5" data-suffix="">0</div><div class="stat-label" data-i18n="stat_studios">Estudios</div></div>
+      <div class="stat"><div class="stat-number" data-count="6" data-suffix="+">0</div><div class="stat-label" data-i18n="stat_titles">T&iacute;tulos lanzados</div></div>
     </div>
   </div>
   <div class="sphere-wrap">
@@ -470,6 +497,8 @@
   <p>&copy; 2020 Konstantin Tikhonov. <span data-i18n="footer">Todos los derechos reservados.</span></p>
 </footer>
 
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">&#9650;</button>
+
 <script>
 // ── TRANSLATIONS ──
 var T = {
@@ -721,14 +750,52 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() { reveals.forEach(function(el) { el.classList.add('visible'); }); }, 3000);
 });
 
-// ── NAV HIGHLIGHT ──
+// ── NAV HIGHLIGHT + SCROLL TOP ──
 var sections = document.querySelectorAll('section[id]');
 var navLinks = document.querySelectorAll('.nav-links a');
+var scrollTopBtn = document.getElementById('scrollTop');
 window.addEventListener('scroll', function() {
   var current = '';
   sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
   navLinks.forEach(function(a) { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent-cyan)' : ''; });
+  if (scrollTopBtn) {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
+  }
 });
+
+// ── COUNTER ANIMATION ──
+(function() {
+  var counters = document.querySelectorAll('[data-count]');
+  var animated = false;
+  function animateCounters() {
+    if (animated) return;
+    animated = true;
+    counters.forEach(function(el) {
+      var target = parseInt(el.getAttribute('data-count'));
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1500;
+      var start = performance.now();
+      function step(now) {
+        var progress = Math.min((now - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.round(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  // Trigger when hero stats become visible
+  var statsEl = document.querySelector('.hero-stats');
+  if (statsEl && 'IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) { animateCounters(); obs.disconnect(); }
+    }, { threshold: 0.5 });
+    obs.observe(statsEl);
+  } else {
+    setTimeout(animateCounters, 1200);
+  }
+})();
 </script>
 </body>
 </html>
