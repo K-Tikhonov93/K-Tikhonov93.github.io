@@ -94,16 +94,32 @@
   .company-link:hover { opacity: 1; }
   .projects-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
   .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94); position: relative; overflow: hidden; text-decoration: none; color: inherit; display: block; }
-  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); opacity: 0; transition: opacity 0.4s; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta)); opacity: 0; transition: opacity 0.4s; z-index: 2; }
   .project-card:hover { background: var(--bg-card-hover); border-color: rgba(0,240,255,0.2); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow-cyan); }
   .project-card:hover::before { opacity: 1; }
   .project-card h3 { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .project-thumb {
+    width: calc(100% + 4rem); height: 180px; margin: -2rem -2rem 1.5rem -2rem; overflow: hidden;
+    background: var(--bg-deep); position: relative;
+  }
+  .project-thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s;
+    opacity: 0.85;
+  }
+  .project-card:hover .project-thumb img { transform: scale(1.05); opacity: 1; }
+  .project-thumb-placeholder {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 2px;
+    color: var(--text-dim); text-transform: uppercase;
+    background: linear-gradient(135deg, rgba(0,240,255,0.05) 0%, rgba(255,0,170,0.03) 50%, rgba(139,92,246,0.05) 100%);
+  }
   .project-platform { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent-cyan); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
   .project-desc { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem; }
   .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; padding: 0.3rem 0.7rem; border-radius: 50px; border: 1px solid var(--border); color: var(--text-dim); text-transform: uppercase; transition: all 0.3s; }
   .project-card:hover .tag { border-color: rgba(0,240,255,0.2); color: var(--text-secondary); }
-  .project-arrow { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--text-dim); transition: all 0.3s; }
+  .project-arrow { position: absolute; top: 13rem; right: 1.5rem; font-size: 1.2rem; color: var(--text-dim); transition: all 0.3s; z-index: 3; }
   .project-card:hover .project-arrow { color: var(--accent-cyan); transform: translate(3px,-3px); }
 
   /* SKILLS */
@@ -151,6 +167,32 @@
   /* FOOTER */
   footer { padding: 3rem 4rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 1; max-width: 1280px; margin-left: auto; margin-right: auto; }
   footer p { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); letter-spacing: 2px; }
+  .footer-legal { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+  .footer-legal a { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-dim); text-decoration: none; letter-spacing: 1px; transition: color 0.3s; }
+  .footer-legal a:hover { color: var(--accent-cyan); }
+
+  /* COOKIE BANNER */
+  .cookie-banner {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(12,12,28,0.97); backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border); padding: 1.2rem 2rem;
+    display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+    flex-wrap: wrap; transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .cookie-banner.visible { transform: translateY(0); }
+  .cookie-banner p { font-size: 0.85rem; color: var(--text-secondary); margin: 0; max-width: 600px; }
+  .cookie-banner a { color: var(--accent-cyan); text-decoration: none; }
+  .cookie-banner a:hover { text-decoration: underline; }
+  .cookie-btn {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; padding: 0.6rem 1.5rem; border: none; border-radius: 6px;
+    cursor: pointer; transition: all 0.3s; text-transform: uppercase;
+  }
+  .cookie-accept { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); color: var(--bg-deep); }
+  .cookie-accept:hover { box-shadow: var(--glow-cyan); transform: translateY(-2px); }
+  .cookie-reject { background: transparent; border: 1px solid var(--border); color: var(--text-dim); }
+  .cookie-reject:hover { border-color: var(--text-secondary); color: var(--text-secondary); }
 
   /* SCROLL TO TOP */
   .scroll-top {
@@ -264,6 +306,7 @@
     <div class="projects-row">
       <a href="https://www.hero-wars.com/" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/hero-wars-online.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Hero Wars: Online Action RPG</h3>
         <div class="project-platform">Web &middot; Mobile</div>
         <p class="project-desc" data-i18n="p_hw1">Dise&ntilde;&eacute; el sistema completo de ligas PvP 5v5: emparejamiento, rankings, divisiones y recompensas. Matchmaking basado en rating con dificultad adaptativa y generaci&oacute;n de bots. Responsable del alcance MVP, estructura UX y balance econ&oacute;mico.</p>
@@ -271,6 +314,7 @@
       </a>
       <a href="https://play.google.com/store/apps/details?id=com.nexters.herowars&hl=es" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/hero-wars-alliance.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Hero Wars: Alliance</h3>
         <div class="project-platform">Mobile &middot; Android / iOS</div>
         <p class="project-desc" data-i18n="p_hw2">GDD detallado y especificaciones UX de todas las pantallas principales. Dise&ntilde;&eacute; la rotaci&oacute;n &ldquo;H&eacute;roes de la Semana&rdquo;, batallas de revancha con pr&eacute;stamo de h&eacute;roes de gremio y recompensas din&aacute;micas basadas en delta de poder.</p>
@@ -287,6 +331,7 @@
     <div class="projects-row">
       <a href="https://apps.apple.com/us/app/nitro-nation-drag-racing/id985158853" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/nitro-nation.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Nitro Nation: Drag Racing</h3>
         <div class="project-platform">Mobile &middot; iOS / Android</div>
         <p class="project-desc" data-i18n="p_nn1">Live ops de principio a fin. Dise&ntilde;o de tienda: ofertas, gachas, ensamblaje t&eacute;cnico. Configuraci&oacute;n de veh&iacute;culos, f&iacute;sica de autos y mejoras. PvP con rating Elo y sistema de gear score.</p>
@@ -294,6 +339,7 @@
       </a>
       <a href="https://cm.games/games/nitro-nation-world-tour" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/nitro-world-tour.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Nitro Nation: World Tour</h3>
         <div class="project-platform">Mobile</div>
         <p class="project-desc" data-i18n="p_nn2">Econom&iacute;a del proyecto y tokenomics. Anal&iacute;tica de producto, pruebas de hip&oacute;tesis y responsabilidad por resultados. Feature owner generalista en m&uacute;ltiples sistemas.</p>
@@ -301,6 +347,7 @@
       </a>
       <a href="https://store.steampowered.com/app/1012790/Into_the_Radius_VR/" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/into-the-radius.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Into the Radius</h3>
         <div class="project-platform">PC &middot; VR &middot; Steam</div>
         <p class="project-desc" data-i18n="p_itr">Gesti&oacute;n de producto y contribuciones de game design a una experiencia de survival-horror en VR aclamada por la cr&iacute;tica, ambientada en la zona de anomal&iacute;a del Radio Pechorsk.</p>
@@ -317,6 +364,7 @@
     <div class="projects-row">
       <a href="https://apps.apple.com/us/app/last-day-on-earth-survival/id1241932094" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/last-day-on-earth.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Last Day on Earth: Survival</h3>
         <div class="project-platform">Mobile &middot; iOS / Android</div>
         <p class="project-desc" data-i18n="p_lde">Live ops y dise&ntilde;o de tienda. Balance de costes de &iacute;tems en toda la econom&iacute;a. Nuevos jefes, ubicaciones, eventos, actividades y mec&aacute;nicas. Dise&ntilde;o de niveles y ensamblaje de locaciones.</p>
@@ -324,6 +372,7 @@
       </a>
       <a href="https://apps.apple.com/us/app/frostborn-co-op-survival/id1477237220" target="_blank" class="project-card">
         <span class="project-arrow">&#8599;</span>
+        <div class="project-thumb"><img src="screenshots/frostborn.jpg" onerror="this.parentElement.innerHTML='<div class=project-thumb-placeholder>Screenshot</div>'"></div>
         <h3>Frostborn: Co-op Survival</h3>
         <div class="project-platform">Mobile &middot; iOS / Android</div>
         <p class="project-desc" data-i18n="p_fb">Contribuciones de game design a un RPG de acci&oacute;n survival cooperativo. Trabajo con configs JSON, mec&aacute;nicas de monetizaci&oacute;n y creaci&oacute;n de contenido para eventos.</p>
@@ -495,7 +544,18 @@
 
 <footer>
   <p>&copy; 2020 Konstantin Tikhonov. <span data-i18n="footer">Todos los derechos reservados.</span></p>
+  <div class="footer-legal">
+    <a href="politica-privacidad.html" data-i18n="legal_privacy">Pol&iacute;tica de Privacidad</a>
+    <a href="aviso-legal.html" data-i18n="legal_notice">Aviso Legal</a>
+    <a href="politica-cookies.html" data-i18n="legal_cookies">Pol&iacute;tica de Cookies</a>
+  </div>
 </footer>
+
+<div class="cookie-banner" id="cookieBanner">
+  <p data-i18n="cookie_text">Este sitio web utiliza cookies para mejorar su experiencia. <a href="politica-cookies.html">M&aacute;s informaci&oacute;n</a></p>
+  <button class="cookie-btn cookie-accept" onclick="acceptCookies()" data-i18n="cookie_accept">Aceptar</button>
+  <button class="cookie-btn cookie-reject" onclick="rejectCookies()" data-i18n="cookie_reject">Rechazar</button>
+</div>
 
 <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">&#9650;</button>
 
@@ -553,7 +613,13 @@ var T = {
     s5_label: "// 05 — Contacto", s5_title: '<span class="accent">Contacto</span>',
     contact_desc: "Abierto a proyectos freelance, consultoría y oportunidades a tiempo completo en game design, diseño de sistemas y gestión de producto. Resido en España, trabajo con equipos de todo el mundo.",
     cl_phone: "Teléfono",
-    footer: "Todos los derechos reservados."
+    footer: "Todos los derechos reservados.",
+    legal_privacy: "Política de Privacidad",
+    legal_notice: "Aviso Legal",
+    legal_cookies: "Política de Cookies",
+    cookie_text: 'Este sitio web utiliza cookies para mejorar su experiencia. <a href="politica-cookies.html">Más información</a>',
+    cookie_accept: "Aceptar",
+    cookie_reject: "Rechazar"
   },
   en: {
     nav_projects: "Projects", nav_skills: "Skills", nav_exp: "Experience", nav_edu: "Education", nav_contact: "Contact",
@@ -606,7 +672,13 @@ var T = {
     s5_label: "// 05 — Get in Touch", s5_title: 'Let\'s <span class="accent">Connect</span>',
     contact_desc: "Open to freelance projects, consulting, and full-time opportunities in game design, systems design, and product management. Based in Spain, working with teams globally.",
     cl_phone: "Phone",
-    footer: "All rights reserved."
+    footer: "All rights reserved.",
+    legal_privacy: "Privacy Policy",
+    legal_notice: "Legal Notice",
+    legal_cookies: "Cookie Policy",
+    cookie_text: 'This website uses cookies to improve your experience. <a href="politica-cookies.html">Learn more</a>',
+    cookie_accept: "Accept",
+    cookie_reject: "Decline"
   },
   ru: {
     nav_projects: "Проекты", nav_skills: "Навыки", nav_exp: "Опыт", nav_edu: "Образование", nav_contact: "Контакты",
@@ -659,7 +731,13 @@ var T = {
     s5_label: "// 05 — Связаться", s5_title: '<span class="accent">Контакты</span>',
     contact_desc: "Открыт для фриланс-проектов, консалтинга и постоянных позиций в геймдизайне, системном дизайне и управлении продуктом. Живу в Испании, работаю с командами по всему миру.",
     cl_phone: "Телефон",
-    footer: "Все права защищены."
+    footer: "Все права защищены.",
+    legal_privacy: "Политика конфиденциальности",
+    legal_notice: "Правовая информация",
+    legal_cookies: "Политика cookies",
+    cookie_text: 'Этот сайт использует cookies для улучшения вашего опыта. <a href="politica-cookies.html">Подробнее</a>',
+    cookie_accept: "Принять",
+    cookie_reject: "Отклонить"
   }
 };
 
@@ -749,6 +827,31 @@ document.addEventListener('DOMContentLoaded', function() {
   reveals.forEach(function(el) { observer.observe(el); });
   setTimeout(function() { reveals.forEach(function(el) { el.classList.add('visible'); }); }, 3000);
 });
+
+// ── COOKIE BANNER ──
+function acceptCookies() {
+  try { localStorage.setItem('cookies_accepted', 'true'); } catch(e) {}
+  document.getElementById('cookieBanner').classList.remove('visible');
+}
+function rejectCookies() {
+  try { localStorage.setItem('cookies_accepted', 'false'); } catch(e) {}
+  document.getElementById('cookieBanner').classList.remove('visible');
+}
+(function() {
+  try {
+    var consent = localStorage.getItem('cookies_accepted');
+    if (consent === null) {
+      setTimeout(function() {
+        document.getElementById('cookieBanner').classList.add('visible');
+      }, 1500);
+    }
+  } catch(e) {
+    // localStorage not available, show banner
+    setTimeout(function() {
+      document.getElementById('cookieBanner').classList.add('visible');
+    }, 1500);
+  }
+})();
 
 // ── NAV HIGHLIGHT + SCROLL TOP ──
 var sections = document.querySelectorAll('section[id]');
